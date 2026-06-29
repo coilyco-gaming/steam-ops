@@ -1,0 +1,2023 @@
+steam_library:
+  account: coilysiren
+  total_games: 588
+  games_played: 484
+  games_never_played: 104
+  total_hours: 26831.0
+  notes: minutes-level playtimes converted to fractional hours; last_played omitted when Steam showed none; achievements omitted when the game has none
+  games:
+    - name: Factorio
+      hours: 521.7
+      last_played: May 2
+      achievements: { earned: 20, total: 88 }
+    - name: Terra Invicta
+      hours: 357.8
+      last_played: Oct 9, 2023
+      achievements: { earned: 34, total: 100 }
+    - name: Age of Wonders 4
+      hours: 143.7
+      last_played: Jan 6
+      achievements: { earned: 27, total: 114 }
+    - name: AETHUS
+      hours: 65.3
+      last_played: Apr 15
+      achievements: { earned: 3, total: 40 }
+    - name: "The Outer Worlds: Spacer's Choice Edition"
+      hours: 21.4
+      last_played: Aug 24, 2023
+      achievements: { earned: 9, total: 68 }
+    - name: Outworld Station
+      hours: 16.0
+      last_played: May 9, 2025
+      achievements: { earned: 0, total: 48 }
+    - name: "Warhammer 40,000: Rogue Trader"
+      hours: 9.7
+      last_played: Mar 25
+      achievements: { earned: 2, total: 133 }
+    - name: Fata Deum - The God Sim
+      hours: 1.3
+      last_played: Sep 15, 2025
+      achievements: { earned: 1, total: 25 }
+    - name: "The Witcher 3: Wild Hunt"
+      hours: 0.4
+      last_played: Yesterday
+      achievements: { earned: 0, total: 78 }
+    - name: "Battlefleet Gothic: Armada 2"
+      achievements: { earned: 0, total: 90 }
+    - name: MineMogul
+    - name: Star Wars Outlaws
+      achievements: { earned: 0, total: 59 }
+    - name: "Warhammer 40,000: Space Marine 2"
+      achievements: { earned: 0, total: 50 }
+    - name: Eco
+      hours: 3142.7
+      last_played: Jun 7
+      achievements: { earned: 38, total: 87 }
+    - name: FINAL FANTASY XIV Online
+      hours: 1820.1
+      last_played: Nov 25, 2025
+    - name: Oxygen Not Included
+      hours: 946.2
+      last_played: Jun 2
+      achievements: { earned: 27, total: 51 }
+    - name: Dyson Sphere Program
+      hours: 733.2
+      last_played: Aug 19, 2025
+      achievements: { earned: 54, total: 128 }
+    - name: FortressCraft Evolved
+      hours: 597.8
+      last_played: Nov 29, 2018
+      achievements: { earned: 39, total: 85 }
+    - name: Path of Exile
+      hours: 561.9
+      last_played: Mar 13, 2020
+      achievements: { earned: 56, total: 127 }
+    - name: "X4: Foundations"
+      hours: 545.2
+      last_played: Sep 17, 2025
+      achievements: { earned: 38, total: 172 }
+    - name: Stellaris
+      hours: 454.0
+      last_played: Apr 3, 2024
+      achievements: { earned: 25, total: 219 }
+    - name: Empyrion - Galactic Survival
+      hours: 416.4
+      last_played: Sep 11, 2024
+    - name: Space Engineers
+      hours: 404.1
+      last_played: Jul 15, 2025
+      achievements: { earned: 5, total: 30 }
+    - name: RimWorld
+      hours: 375.4
+      last_played: Sep 18, 2025
+    - name: Robocraft
+      hours: 371.4
+      last_played: Sep 13, 2016
+      achievements: { earned: 0, total: 43 }
+    - name: XCOM 2
+      hours: 349.5
+      last_played: Dec 25, 2018
+      achievements: { earned: 54, total: 88 }
+    - name: "Warhammer 40,000: Dawn of War II - Retribution"
+      hours: 301.1
+      last_played: Jul 26, 2013
+      achievements: { earned: 34, total: 77 }
+    - name: "Baldur's Gate 3"
+      hours: 298.4
+      last_played: Sep 9, 2024
+      achievements: { earned: 30, total: 54 }
+    - name: Timberborn
+      hours: 279.8
+      last_played: Jun 22
+      achievements: { earned: 0, total: 59 }
+    - name: "Warhammer 40,000: Dawn of War II - Anniversary Edition"
+      hours: 235.2
+      achievements: { earned: 0, total: 73 }
+    - name: ENDLESS Space™ 2
+      hours: 230.8
+      last_played: Mar 20, 2024
+      achievements: { earned: 22, total: 115 }
+    - name: EVE Online
+      hours: 216.2
+      last_played: May 4, 2020
+    - name: "Pillars of Eternity II: Deadfire"
+      hours: 211.4
+      last_played: May 24, 2020
+      achievements: { earned: 23, total: 55 }
+    - name: Terraria
+      hours: 211.0
+      last_played: Aug 25, 2022
+      achievements: { earned: 72, total: 137 }
+    - name: Starfield
+      hours: 208.7
+      last_played: Jun 20
+      achievements: { earned: 35, total: 82 }
+    - name: Fallout 4
+      hours: 189.1
+      last_played: Jan 24, 2024
+      achievements: { earned: 40, total: 84 }
+    - name: Clicker Heroes
+      hours: 184.0
+      last_played: Oct 11, 2016
+      achievements: { earned: 52, total: 111 }
+    - name: Captain of Industry
+      hours: 183.7
+      last_played: Jul 9, 2025
+    - name: "Divinity: Original Sin 2"
+      hours: 183.7
+      last_played: Jun 13, 2023
+      achievements: { earned: 47, total: 97 }
+    - name: MoteMancer
+      hours: 182.5
+      last_played: Sep 15, 2025
+      achievements: { earned: 0, total: 66 }
+    - name: Dominions 4
+      hours: 180.3
+      last_played: Jul 11, 2016
+    - name: "Age of Wonders: Planetfall"
+      hours: 178.0
+      last_played: Sep 3, 2022
+      achievements: { earned: 29, total: 80 }
+    - name: Anno 1800
+      hours: 177.9
+      last_played: Jul 8, 2023
+      achievements: { earned: 48, total: 112 }
+    - name: "Sid Meier's Civilization V"
+      hours: 167.7
+      last_played: Jun 15, 2014
+      achievements: { earned: 54, total: 286 }
+    - name: Wildermyth
+      hours: 157.5
+      last_played: Jun 20
+      achievements: { earned: 40, total: 94 }
+    - name: "Cities: Skylines"
+      hours: 154.0
+      last_played: Jun 2, 2023
+      achievements: { earned: 17, total: 135 }
+    - name: "The Elder Scrolls V: Skyrim"
+      hours: 125.9
+      last_played: Aug 14, 2013
+      achievements: { earned: 33, total: 75 }
+    - name: Icarus
+      hours: 125.1
+      last_played: Dec 14, 2025
+      achievements: { earned: 19, total: 171 }
+    - name: "Total War: WARHAMMER II"
+      hours: 125.0
+      last_played: Jan 18, 2019
+      achievements: { earned: 49, total: 152 }
+    - name: Kenshi
+      hours: 123.7
+      last_played: Oct 19, 2024
+    - name: "Tales of Maj'Eyal"
+      hours: 123.5
+      last_played: Aug 1, 2024
+      achievements: { earned: 52, total: 1782 }
+    - name: "The Spatials: Galactology"
+      hours: 123.3
+      last_played: Dec 9, 2023
+      achievements: { earned: 0, total: 18 }
+    - name: Surviving Mars
+      hours: 115.9
+      last_played: Aug 1, 2024
+      achievements: { earned: 42, total: 80 }
+    - name: Darkest Dungeon®
+      hours: 113.4
+      last_played: Dec 22, 2018
+      achievements: { earned: 38, total: 120 }
+    - name: Supreme Commander 2
+      hours: 110.0
+      achievements: { earned: 22, total: 47 }
+    - name: ENDLESS Space™ - Definitive Edition
+      hours: 107.8
+      last_played: Jun 3, 2014
+      achievements: { earned: 23, total: 93 }
+    - name: "Sid Meier's Civilization: Beyond Earth"
+      hours: 107.1
+      last_played: Mar 1, 2016
+      achievements: { earned: 26, total: 90 }
+    - name: ENDLESS Legend™
+      hours: 106.7
+      last_played: Aug 25, 2016
+      achievements: { earned: 26, total: 139 }
+    - name: "XCOM: Enemy Unknown"
+      hours: 105.6
+      last_played: Oct 14, 2015
+      achievements: { earned: 53, total: 85 }
+    - name: "Stranded: Alien Dawn"
+      hours: 105.4
+      last_played: Nov 13, 2023
+      achievements: { earned: 27, total: 58 }
+    - name: "The Elder Scrolls V: Skyrim Special Edition"
+      hours: 105.1
+      last_played: Jan 18
+      achievements: { earned: 2, total: 75 }
+    - name: Per Aspera
+      hours: 104.1
+      last_played: Jul 16, 2023
+      achievements: { earned: 27, total: 55 }
+    - name: Solargene
+      hours: 102.4
+      last_played: Oct 16, 2025
+    - name: FOUNDRY
+      hours: 101.7
+      last_played: Jan 29
+      achievements: { earned: 40, total: 81 }
+    - name: Colony Survival
+      hours: 100.6
+      last_played: May 8, 2024
+      achievements: { earned: 33, total: 50 }
+    - name: "Fallout: New Vegas"
+      hours: 97.4
+      last_played: Oct 2, 2015
+      achievements: { earned: 30, total: 75 }
+    - name: "Total War: WARHAMMER III"
+      hours: 97.2
+      last_played: Jun 17
+      achievements: { earned: 21, total: 138 }
+    - name: Tyranny
+      hours: 96.8
+      last_played: Jul 11, 2024
+      achievements: { earned: 16, total: 70 }
+    - name: Stardew Valley
+      hours: 96.1
+      last_played: May 5, 2024
+      achievements: { earned: 17, total: 49 }
+    - name: SimCity 4 Deluxe
+      hours: 95.4
+      last_played: Dec 28, 2014
+    - name: Starbound
+      hours: 94.7
+      last_played: Aug 1, 2016
+      achievements: { earned: 14, total: 51 }
+    - name: Wayward
+      hours: 92.7
+      last_played: Nov 7, 2022
+    - name: Anno 2205
+      hours: 92.4
+      last_played: Jun 21, 2020
+      achievements: { earned: 93, total: 198 }
+    - name: Transport Fever 2
+      hours: 90.2
+      last_played: Mar 3, 2024
+      achievements: { earned: 33, total: 61 }
+    - name: Rise to Ruins
+      hours: 87.7
+      last_played: Mar 12, 2024
+      achievements: { earned: 2, total: 113 }
+    - name: Dwarf Fortress
+      hours: 86.4
+      last_played: Dec 16, 2022
+    - name: Stationeers
+      hours: 82.7
+      last_played: Sep 15, 2025
+      achievements: { earned: 0, total: 53 }
+    - name: Banished
+      hours: 81.5
+      last_played: May 3, 2015
+      achievements: { earned: 4, total: 36 }
+    - name: The Riftbreaker
+      hours: 80.8
+      last_played: Dec 2, 2025
+      achievements: { earned: 27, total: 54 }
+    - name: "Mount & Blade II: Bannerlord"
+      hours: 80.6
+      last_played: May 2, 2023
+      achievements: { earned: 0, total: 50 }
+    - name: Godus
+      hours: 79.0
+      last_played: May 23, 2015
+    - name: The Planet Crafter
+      hours: 78.6
+      last_played: Sep 18, 2025
+      achievements: { earned: 33, total: 55 }
+    - name: Gnomoria
+      hours: 78.3
+      last_played: Mar 1, 2015
+    - name: Zombasite
+      hours: 78.0
+      last_played: Aug 7, 2016
+      achievements: { earned: 9, total: 61 }
+    - name: Star Valor
+      hours: 77.5
+      last_played: Aug 6, 2025
+      achievements: { earned: 8, total: 45 }
+    - name: Skyward Collapse
+      hours: 74.4
+      last_played: Jun 29, 2024
+      achievements: { earned: 31, total: 80 }
+    - name: HUMANKIND™
+      hours: 73.5
+      last_played: Feb 13, 2023
+      achievements: { earned: 43, total: 99 }
+    - name: Europa Universalis III
+      hours: 72.9
+      last_played: Dec 17, 2012
+    - name: Sun Haven
+      hours: 72.2
+      last_played: Dec 16, 2024
+      achievements: { earned: 50, total: 190 }
+    - name: "Warhammer 40,000: Dawn of War II - Chaos Rising"
+      hours: 71.4
+      achievements: { earned: 0, total: 73 }
+    - name: Songs of Syx
+      hours: 70.9
+      last_played: May 1, 2024
+      achievements: { earned: 12, total: 34 }
+    - name: Space Pirates and Zombies
+      hours: 70.8
+      last_played: Jul 7, 2013
+      achievements: { earned: 37, total: 48 }
+    - name: Against the Storm
+      hours: 69.9
+      last_played: Nov 5, 2023
+      achievements: { earned: 16, total: 80 }
+    - name: "Divinity: Original Sin (Classic)"
+      hours: 69.4
+      last_played: May 9, 2015
+      achievements: { earned: 19, total: 63 }
+    - name: Factory Town
+      hours: 66.0
+      last_played: Aug 3, 2024
+      achievements: { earned: 14, total: 32 }
+    - name: "Distant Worlds: Universe"
+      hours: 64.9
+      last_played: Apr 22, 2020
+      achievements: { earned: 10, total: 54 }
+    - name: Final Upgrade
+      hours: 64.7
+      last_played: May 26, 2025
+      achievements: { earned: 8, total: 39 }
+    - name: Solar Expanse
+      hours: 62.8
+      last_played: Jan 28
+      achievements: { earned: 0, total: 34 }
+    - name: "Total War: SHOGUN 2"
+      hours: 60.7
+      last_played: Dec 9, 2014
+      achievements: { earned: 11, total: 106 }
+    - name: Sweet Transit
+      hours: 60.6
+      last_played: Apr 28, 2024
+      achievements: { earned: 21, total: 46 }
+    - name: State of Decay 2
+      hours: 60.0
+      last_played: Mar 27, 2023
+      achievements: { earned: 78, total: 153 }
+    - name: "Fallen Enchantress: Legendary Heroes"
+      hours: 59.7
+      last_played: Nov 2, 2019
+      achievements: { earned: 25, total: 54 }
+    - name: Settlement Survival
+      hours: 58.9
+      last_played: Nov 23, 2022
+      achievements: { earned: 22, total: 51 }
+    - name: "Len's Island"
+      hours: 57.7
+      last_played: Jul 27, 2025
+      achievements: { earned: 8, total: 31 }
+    - name: Cult of the Lamb
+      hours: 55.9
+      last_played: Feb 19, 2024
+      achievements: { earned: 12, total: 57 }
+    - name: "Star Traders: Frontiers"
+      hours: 55.0
+      last_played: Mar 11, 2022
+      achievements: { earned: 2, total: 34 }
+    - name: Stonehearth
+      hours: 54.6
+      last_played: Jul 2, 2018
+    - name: "Wasteland 2: Director's Cut"
+      hours: 53.8
+      last_played: Jan 9, 2019
+      achievements: { earned: 5, total: 46 }
+    - name: "No Man's Sky"
+      hours: 53.6
+      last_played: Jul 25, 2024
+      achievements: { earned: 18, total: 27 }
+    - name: MASSIVE CHALICE
+      hours: 53.6
+      last_played: Oct 4, 2015
+      achievements: { earned: 11, total: 28 }
+    - name: Endzone - A World Apart
+      hours: 52.3
+      last_played: Jan 3, 2023
+      achievements: { earned: 47, total: 69 }
+    - name: ASTRONEER
+      hours: 51.8
+      last_played: Jan 3, 2025
+      achievements: { earned: 22, total: 56 }
+    - name: Voxel Tycoon
+      hours: 51.1
+      last_played: Apr 17, 2024
+    - name: BATTLETECH
+      hours: 51.1
+      last_played: Oct 3, 2019
+      achievements: { earned: 50, total: 128 }
+    - name: "Dragon Age™: The Veilguard"
+      hours: 50.4
+      last_played: Jun 19
+      achievements: { earned: 21, total: 52 }
+    - name: FINAL FANTASY XIII-2
+      hours: 50.2
+      last_played: Jan 17, 2015
+      achievements: { earned: 15, total: 31 }
+    - name: Astro Colony
+      hours: 50.0
+      last_played: Feb 5
+      achievements: { earned: 7, total: 25 }
+    - name: Solace Crafting
+      hours: 49.8
+      last_played: Jul 10, 2024
+      achievements: { earned: 22, total: 62 }
+    - name: "Divinity: Original Sin Enhanced Edition"
+      hours: 48.1
+      last_played: Feb 15, 2016
+      achievements: { earned: 17, total: 54 }
+    - name: Avorion
+      hours: 48.0
+      last_played: Sep 12, 2024
+      achievements: { earned: 21, total: 68 }
+    - name: Craft The World
+      hours: 47.7
+      last_played: Jul 9, 2024
+      achievements: { earned: 20, total: 94 }
+    - name: "Sid Meier's Civilization VI"
+      hours: 47.6
+      last_played: Jan 14, 2018
+      achievements: { earned: 17, total: 320 }
+    - name: "X3: Terran Conflict"
+      hours: 47.4
+      last_played: Jan 1, 2012
+      achievements: { earned: 5, total: 33 }
+    - name: Star Dynasties
+      hours: 47.4
+      last_played: Aug 31, 2022
+      achievements: { earned: 20, total: 27 }
+    - name: From The Depths
+      hours: 46.8
+      last_played: Dec 25, 2018
+      achievements: { earned: 0, total: 53 }
+    - name: The Last Federation
+      hours: 46.2
+      last_played: Aug 29, 2022
+      achievements: { earned: 18, total: 79 }
+    - name: Cultist Simulator
+      hours: 45.6
+      last_played: Sep 14, 2022
+      achievements: { earned: 15, total: 83 }
+    - name: "X3: Albion Prelude"
+      hours: 44.5
+      last_played: Dec 20, 2012
+      achievements: { earned: 1, total: 33 }
+    - name: "AI War: Fleet Command"
+      hours: 44.2
+      last_played: Jul 28, 2013
+      achievements: { earned: 19, total: 322 }
+    - name: Age of Wonders III
+      hours: 44.2
+      last_played: Feb 24, 2016
+      achievements: { earned: 22, total: 74 }
+    - name: Space Haven
+      hours: 42.8
+      last_played: Sep 22, 2025
+    - name: MegaFactory Titan
+      hours: 42.7
+      last_played: Jan 28
+      achievements: { earned: 6, total: 18 }
+    - name: "Sins of a Solar Empire: Rebellion"
+      hours: 42.2
+      last_played: Nov 22, 2014
+      achievements: { earned: 34, total: 68 }
+    - name: Rise of Industry
+      hours: 41.0
+      last_played: Jun 14, 2023
+      achievements: { earned: 13, total: 27 }
+    - name: Transistor
+      hours: 41.0
+      last_played: Nov 2, 2015
+      achievements: { earned: 33, total: 33 }
+    - name: Final Factory
+      hours: 40.6
+      last_played: Dec 16, 2025
+      achievements: { earned: 6, total: 26 }
+    - name: Desynced
+      hours: 40.4
+      last_played: Dec 20, 2024
+      achievements: { earned: 0, total: 28 }
+    - name: Stardeus
+      hours: 40.4
+      last_played: Jul 25, 2024
+      achievements: { earned: 13, total: 30 }
+    - name: "Judgment: Apocalypse Survival Simulation"
+      hours: 40.1
+      last_played: Jan 8, 2023
+      achievements: { earned: 11, total: 57 }
+    - name: Factory Town Idle
+      hours: 39.7
+      last_played: Jan 16, 2024
+      achievements: { earned: 59, total: 74 }
+    - name: Anno 2070
+      hours: 39.6
+      last_played: Nov 18, 2015
+    - name: Reassembly
+      hours: 39.2
+      last_played: Nov 4, 2023
+      achievements: { earned: 14, total: 24 }
+    - name: Prison Architect
+      hours: 38.7
+      last_played: Jul 31, 2015
+      achievements: { earned: 0, total: 18 }
+    - name: "The Settlers 7: Paths to a Kingdom - Gold Edition"
+      hours: 38.6
+      last_played: Oct 12, 2013
+    - name: Infested Planet
+      hours: 38.4
+      last_played: Oct 13, 2016
+      achievements: { earned: 13, total: 36 }
+    - name: Phantom Brigade
+      hours: 38.3
+      last_played: Dec 21, 2025
+      achievements: { earned: 28, total: 46 }
+    - name: Star Conflict
+      hours: 37.1
+      last_played: Apr 30, 2020
+      achievements: { earned: 17, total: 213 }
+    - name: "ARK: Survival Evolved"
+      hours: 36.7
+      last_played: Apr 22, 2023
+      achievements: { earned: 3, total: 32 }
+    - name: Company of Heroes - Legacy Edition
+      hours: 36.7
+    - name: "Cosmoteer: Starship Architect & Commander"
+      hours: 36.6
+      last_played: Mar 19, 2024
+    - name: Nuclear Dawn
+      hours: 35.5
+      last_played: Oct 16, 2011
+      achievements: { earned: 11, total: 58 }
+    - name: Warlock - Master of the Arcane
+      hours: 35.4
+      last_played: May 13, 2014
+    - name: Starpoint Gemini 2
+      hours: 35.0
+      last_played: Jan 6, 2015
+      achievements: { earned: 19, total: 52 }
+    - name: The Universim
+      hours: 34.6
+      last_played: Jun 17, 2023
+      achievements: { earned: 21, total: 60 }
+    - name: Alchemy Factory
+      hours: 34.3
+      last_played: Jan 20
+      achievements: { earned: 13, total: 55 }
+    - name: Drox Operative 2
+      hours: 34.1
+      last_played: Mar 17, 2023
+      achievements: { earned: 9, total: 68 }
+    - name: The Crust
+      hours: 33.9
+      last_played: Dec 16, 2025
+      achievements: { earned: 9, total: 26 }
+    - name: PlanetSide 2
+      hours: 33.7
+      last_played: Apr 30, 2020
+    - name: Pixel Piracy
+      hours: 33.6
+      last_played: Mar 10, 2015
+      achievements: { earned: 13, total: 31 }
+    - name: Crea
+      hours: 33.6
+      last_played: Oct 26, 2017
+      achievements: { earned: 25, total: 49 }
+    - name: "Galactic Civilizations II: Ultimate Edition"
+      hours: 33.1
+      last_played: Apr 15, 2013
+    - name: Planet Explorers
+      hours: 32.7
+      last_played: Oct 15, 2016
+      achievements: { earned: 0, total: 16 }
+    - name: Ragnorium
+      hours: 32.4
+      last_played: Mar 28, 2022
+      achievements: { earned: 5, total: 70 }
+    - name: Loop Hero
+      hours: 31.5
+      last_played: Feb 11, 2023
+      achievements: { earned: 28, total: 50 }
+    - name: Palworld
+      hours: 31.5
+      last_played: Feb 17, 2024
+      achievements: { earned: 5, total: 57 }
+    - name: Darkest Dungeon® II
+      hours: 30.9
+      last_played: Jun 29, 2024
+      achievements: { earned: 24, total: 121 }
+    - name: AI War 2
+      hours: 30.4
+      last_played: Dec 31, 2021
+      achievements: { earned: 29, total: 255 }
+    - name: Distant Worlds 2
+      hours: 30.4
+      last_played: Mar 6, 2023
+    - name: Adventurer Manager
+      hours: 29.0
+      last_played: Dec 27, 2016
+      achievements: { earned: 17, total: 74 }
+    - name: "Surviving Mars: Relaunched"
+      hours: 28.9
+      last_played: Nov 13, 2025
+      achievements: { earned: 22, total: 65 }
+    - name: Dig or Die
+      hours: 28.5
+      last_played: Jan 18, 2022
+      achievements: { earned: 5, total: 18 }
+    - name: Terraformers
+      hours: 28.3
+      last_played: Nov 8, 2025
+      achievements: { earned: 15, total: 63 }
+    - name: Big Pharma
+      hours: 28.3
+      last_played: Aug 9, 2016
+      achievements: { earned: 3, total: 25 }
+    - name: Torchlight II
+      hours: 28.1
+      last_played: Oct 9, 2013
+      achievements: { earned: 45, total: 119 }
+    - name: Wasteland 3
+      hours: 27.9
+      last_played: May 30, 2021
+      achievements: { earned: 11, total: 86 }
+    - name: Light of Altair
+      hours: 27.5
+      achievements: { earned: 18, total: 30 }
+    - name: Book of Hours
+      hours: 27.1
+      last_played: Jun 20
+      achievements: { earned: 4, total: 95 }
+    - name: Risk of Rain 2
+      hours: 26.9
+      last_played: Dec 25, 2025
+      achievements: { earned: 36, total: 171 }
+    - name: "Plan B: Terraform"
+      hours: 26.7
+      last_played: Jul 12, 2025
+      achievements: { earned: 8, total: 22 }
+    - name: Hades II
+      hours: 26.4
+      last_played: Oct 11, 2025
+      achievements: { earned: 6, total: 50 }
+    - name: The Last Starship
+      hours: 25.9
+      last_played: Jan 29
+      achievements: { earned: 1, total: 37 }
+    - name: Enshrouded
+      hours: 25.7
+      last_played: Jun 15, 2025
+      achievements: { earned: 12, total: 52 }
+    - name: Endless Sky
+      hours: 25.6
+      last_played: Mar 16, 2021
+    - name: Keplerth
+      hours: 25.5
+      last_played: Jul 27, 2023
+      achievements: { earned: 24, total: 59 }
+    - name: Nimbatus - The Space Drone Constructor
+      hours: 25.4
+      last_played: Dec 29, 2020
+      achievements: { earned: 5, total: 34 }
+    - name: Core Keeper
+      hours: 24.8
+      last_played: Jan 26, 2025
+      achievements: { earned: 5, total: 55 }
+    - name: Forager
+      hours: 24.4
+      last_played: Apr 27, 2019
+      achievements: { earned: 60, total: 103 }
+    - name: Drox Operative
+      hours: 23.8
+      last_played: Apr 29, 2016
+      achievements: { earned: 10, total: 63 }
+    - name: They Are Billions
+      hours: 23.6
+      last_played: Aug 6, 2024
+      achievements: { earned: 3, total: 34 }
+    - name: Invisible, Inc.
+      hours: 23.5
+      last_played: May 31, 2020
+      achievements: { earned: 7, total: 23 }
+    - name: "Rebuild 3: Gangs of Deadsville"
+      hours: 23.3
+      last_played: Aug 4, 2016
+      achievements: { earned: 10, total: 42 }
+    - name: Sins of a Solar Empire II
+      hours: 23.3
+      last_played: Aug 22, 2024
+      achievements: { earned: 0, total: 64 }
+    - name: InfraSpace
+      hours: 23.1
+      last_played: Mar 20, 2024
+      achievements: { earned: 0, total: 32 }
+    - name: Dungeon of the ENDLESS™
+      hours: 22.3
+      last_played: May 25, 2016
+      achievements: { earned: 6, total: 33 }
+    - name: Eden Crafters
+      hours: 22.2
+      last_played: Jun 4, 2025
+      achievements: { earned: 0, total: 40 }
+    - name: Galimulator
+      hours: 22.2
+      last_played: Nov 30, 2023
+      achievements: { earned: 2, total: 3 }
+    - name: "Shadowrun: Dragonfall - Director's Cut"
+      hours: 22.1
+      last_played: Aug 23, 2015
+      achievements: { earned: 10, total: 39 }
+    - name: Star Ruler
+      hours: 22.1
+      last_played: Feb 23, 2013
+    - name: New Cycle
+      hours: 22.0
+      last_played: Dec 16, 2025
+      achievements: { earned: 35, total: 55 }
+    - name: Whiskerwood
+      hours: 21.8
+      last_played: Dec 21, 2025
+      achievements: { earned: 7, total: 21 }
+    - name: "Potion Craft: Alchemist Simulator"
+      hours: 21.6
+      last_played: Jun 14, 2025
+      achievements: { earned: 12, total: 29 }
+    - name: "Moonlighter 2: The Endless Vault"
+      hours: 21.2
+      last_played: Dec 26, 2025
+      achievements: { earned: 31, total: 50 }
+    - name: Godless
+      hours: 21.1
+      last_played: Dec 17, 2025
+      achievements: { earned: 32, total: 177 }
+    - name: Galactic Civilizations IV
+      hours: 21.1
+      last_played: Aug 15, 2024
+      achievements: { earned: 17, total: 78 }
+    - name: Kerbal Space Program
+      hours: 21.0
+      last_played: Apr 22, 2016
+    - name: State of Decay
+      hours: 21.0
+      last_played: Jul 28, 2016
+      achievements: { earned: 22, total: 46 }
+    - name: Heart of the Machine
+      hours: 20.9
+      last_played: Feb 3
+      achievements: { earned: 32, total: 284 }
+    - name: "Hardspace: Shipbreaker"
+      hours: 20.9
+      last_played: Jun 19
+      achievements: { earned: 5, total: 27 }
+    - name: Griftlands
+      hours: 20.6
+      last_played: Jan 17, 2024
+      achievements: { earned: 0, total: 13 }
+    - name: Frozen Synapse
+      hours: 20.5
+      achievements: { earned: 5, total: 16 }
+    - name: Kingdoms Reborn
+      hours: 20.5
+      last_played: Jul 31, 2024
+      achievements: { earned: 7, total: 36 }
+    - name: Icaria
+      hours: 20.3
+      last_played: May 23, 2025
+      achievements: { earned: 0, total: 9 }
+    - name: Endzone 2
+      hours: 19.9
+      last_played: Sep 1, 2025
+      achievements: { earned: 15, total: 48 }
+    - name: Cities XL 2011
+      hours: 19.9
+      last_played: May 10, 2012
+    - name: Foundation
+      hours: 19.8
+      last_played: Jan 4, 2023
+      achievements: { earned: 5, total: 45 }
+    - name: This War of Mine
+      hours: 19.6
+      last_played: Dec 6, 2014
+      achievements: { earned: 11, total: 59 }
+    - name: "Hero's Hour"
+      hours: 19.1
+      last_played: May 31, 2024
+      achievements: { earned: 20, total: 61 }
+    - name: "Don't Starve"
+      hours: 19.1
+      last_played: Aug 30, 2013
+    - name: Triple Town
+      hours: 19.1
+      last_played: Jan 15, 2017
+      achievements: { earned: 4, total: 10 }
+    - name: Cyberpunk 2077
+      hours: 18.9
+      last_played: Mar 6, 2024
+      achievements: { earned: 5, total: 57 }
+    - name: Borderlands 2
+      hours: 18.2
+      last_played: Feb 18, 2015
+      achievements: { earned: 20, total: 75 }
+    - name: "Sword of the Stars II: Enhanced Edition"
+      hours: 18.2
+      last_played: Dec 2, 2012
+      achievements: { earned: 7, total: 14 }
+    - name: Equilinox
+      hours: 18.1
+      last_played: Mar 8, 2023
+    - name: Edge of Space
+      hours: 17.9
+      last_played: Oct 26, 2015
+      achievements: { earned: 4, total: 24 }
+    - name: Rogue Legacy 2
+      hours: 17.9
+      last_played: May 27, 2022
+      achievements: { earned: 3, total: 39 }
+    - name: Into the Breach
+      hours: 17.7
+      last_played: May 7, 2024
+      achievements: { earned: 17, total: 70 }
+    - name: "FTL: Faster Than Light"
+      hours: 17.7
+      last_played: May 21, 2014
+      achievements: { earned: 0, total: 51 }
+    - name: Valkyria Chronicles™
+      hours: 17.4
+      last_played: Feb 6, 2015
+      achievements: { earned: 3, total: 20 }
+    - name: SpaceChem
+      hours: 17.2
+      last_played: Jan 23, 2015
+      achievements: { earned: 1, total: 20 }
+    - name: "Mount & Blade: With Fire and Sword"
+      hours: 16.7
+      last_played: Aug 23, 2016
+      achievements: { earned: 5, total: 21 }
+    - name: AirMech
+      hours: 16.6
+      last_played: Jan 29, 2016
+      achievements: { earned: 14, total: 91 }
+    - name: 7 Days to Die
+      hours: 16.6
+      last_played: Apr 8, 2023
+      achievements: { earned: 12, total: 43 }
+    - name: Torchlight
+      hours: 16.2
+      last_played: Jul 10, 2012
+      achievements: { earned: 18, total: 66 }
+    - name: FINAL FANTASY XIII
+      hours: 16.1
+      last_played: Nov 10, 2014
+      achievements: { earned: 7, total: 35 }
+    - name: Risk of Rain (2013)
+      hours: 16.1
+      last_played: May 20, 2016
+      achievements: { earned: 11, total: 15 }
+    - name: ArcheAge
+      hours: 15.9
+      last_played: Oct 30, 2015
+    - name: Dungeons of Dredmor
+      hours: 15.9
+      last_played: Dec 25, 2016
+      achievements: { earned: 18, total: 123 }
+    - name: Fractured Space
+      hours: 15.9
+      last_played: Oct 16, 2016
+      achievements: { earned: 11, total: 34 }
+    - name: Nuclear Throne
+      hours: 15.8
+      last_played: Dec 16, 2015
+      achievements: { earned: 10, total: 59 }
+    - name: Rogue Legacy
+      hours: 15.7
+      last_played: Jul 25, 2013
+      achievements: { earned: 11, total: 29 }
+    - name: Of Life and Land
+      hours: 15.6
+      last_played: Oct 13, 2025
+      achievements: { earned: 38, total: 67 }
+    - name: RAILGRADE
+      hours: 15.6
+      last_played: May 23, 2024
+      achievements: { earned: 16, total: 37 }
+    - name: Planetary Annihilation
+      hours: 15.4
+      last_played: Feb 3, 2015
+      achievements: { earned: 0, total: 19 }
+    - name: Astronomics
+      hours: 15.3
+      last_played: Apr 25, 2025
+    - name: Frostpunk
+      hours: 14.9
+      last_played: Oct 12, 2022
+      achievements: { earned: 20, total: 115 }
+    - name: Mercury Fallen
+      hours: 14.9
+      last_played: Aug 16, 2025
+      achievements: { earned: 9, total: 18 }
+    - name: Mabinogi
+      hours: 14.8
+      last_played: Jun 1, 2015
+    - name: Medieval Engineers
+      hours: 14.7
+      last_played: Aug 22, 2016
+    - name: Slime Rancher
+      hours: 14.5
+      last_played: Feb 3, 2019
+      achievements: { earned: 33, total: 57 }
+    - name: Opus Magnum
+      hours: 14.3
+      last_played: Feb 2, 2024
+      achievements: { earned: 0, total: 6 }
+    - name: "Warlock 2: the Exiled"
+      hours: 14.3
+      last_played: May 26, 2014
+      achievements: { earned: 26, total: 74 }
+    - name: The Banner Saga
+      hours: 14.3
+      last_played: Nov 16, 2014
+      achievements: { earned: 15, total: 39 }
+    - name: "Total War: WARHAMMER"
+      hours: 14.2
+      last_played: Feb 23, 2017
+      achievements: { earned: 7, total: 185 }
+    - name: "Creeper World 3: Arc Eternal"
+      hours: 14.0
+      last_played: Dec 20, 2016
+      achievements: { earned: 37, total: 139 }
+    - name: Democracy 4
+      hours: 14.0
+      last_played: Jul 29, 2023
+      achievements: { earned: 0, total: 40 }
+    - name: BossConstructor
+      hours: 13.8
+      last_played: Jan 16, 2019
+      achievements: { earned: 1, total: 26 }
+    - name: "Sword of the Stars: The Pit"
+      hours: 13.8
+      last_played: Aug 19, 2016
+      achievements: { earned: 12, total: 187 }
+    - name: Democracy 3
+      hours: 13.8
+      last_played: Dec 12, 2014
+      achievements: { earned: 9, total: 42 }
+    - name: Reus
+      hours: 13.8
+      last_played: Dec 18, 2014
+      achievements: { earned: 66, total: 123 }
+    - name: "Wargame: Red Dragon"
+      hours: 13.8
+      last_played: Feb 14, 2015
+    - name: Offworld Trading Company
+      hours: 13.6
+      last_played: Mar 22, 2021
+      achievements: { earned: 24, total: 255 }
+    - name: "Age of Darkness: Final Stand"
+      hours: 13.5
+      last_played: Aug 26, 2023
+      achievements: { earned: 0, total: 66 }
+    - name: Hammerfight
+      hours: 13.5
+      last_played: Apr 25, 2014
+    - name: Sunless Sea
+      hours: 13.4
+      last_played: May 4, 2015
+      achievements: { earned: 5, total: 54 }
+    - name: Sanctum 2
+      hours: 13.4
+      last_played: Aug 29, 2016
+      achievements: { earned: 7, total: 50 }
+    - name: Protolife
+      hours: 13.4
+      last_played: Dec 8, 2019
+      achievements: { earned: 0, total: 29 }
+    - name: Nova Drift
+      hours: 13.3
+      last_played: May 30, 2025
+      achievements: { earned: 4, total: 40 }
+    - name: MENACE
+      hours: 13.3
+      last_played: Mar 16
+      achievements: { earned: 11, total: 15 }
+    - name: "Warhammer 40,000: Space Marine - Anniversary Edition"
+      hours: 13.2
+      last_played: Jun 29, 2014
+      achievements: { earned: 21, total: 60 }
+    - name: Crusader Kings II
+      hours: 13.1
+      last_played: Feb 15, 2015
+      achievements: { earned: 0, total: 161 }
+    - name: Stellar Impact
+      hours: 12.9
+      last_played: Jul 16, 2012
+    - name: I Was a Teenage Exocolonist
+      hours: 12.8
+      last_played: Jun 18, 2024
+      achievements: { earned: 10, total: 50 }
+    - name: Godhood
+      hours: 12.7
+      last_played: May 14, 2022
+      achievements: { earned: 11, total: 59 }
+    - name: Farlanders
+      hours: 12.7
+      last_played: Jul 4, 2024
+      achievements: { earned: 18, total: 45 }
+    - name: Star Ruler 2
+      hours: 12.6
+      last_played: Feb 19, 2015
+      achievements: { earned: 2, total: 23 }
+    - name: Phoenix Point
+      hours: 12.6
+      last_played: Sep 26, 2025
+      achievements: { earned: 11, total: 47 }
+    - name: As Far As The Eye
+      hours: 12.4
+      last_played: Nov 1, 2022
+      achievements: { earned: 34, total: 67 }
+    - name: Marble Age
+      hours: 12.1
+      last_played: Dec 22, 2016
+      achievements: { earned: 12, total: 19 }
+    - name: ERA ONE
+      hours: 12.0
+      last_played: Jan 28
+    - name: Conquest of Elysium 4
+      hours: 11.9
+      last_played: Jul 9, 2016
+    - name: ZEPHON
+      hours: 11.9
+      last_played: Sep 29, 2025
+      achievements: { earned: 3, total: 96 }
+    - name: Reus 2
+      hours: 11.8
+      last_played: Dec 7, 2025
+      achievements: { earned: 48, total: 162 }
+    - name: Space Pirates and Zombies 2
+      hours: 11.7
+      last_played: Sep 4, 2022
+      achievements: { earned: 9, total: 42 }
+    - name: "Dead Island: Epidemic"
+      hours: 11.6
+      last_played: Sep 6, 2015
+      achievements: { earned: 20, total: 54 }
+    - name: Fallout 76
+      hours: 11.5
+      last_played: May 1, 2024
+      achievements: { earned: 16, total: 72 }
+    - name: "Cities: Skylines II"
+      hours: 11.3
+      last_played: Mar 5, 2024
+      achievements: { earned: 15, total: 44 }
+    - name: "Cyber Knights: Flashpoint"
+      hours: 11.1
+      last_played: Oct 10, 2025
+      achievements: { earned: 0, total: 97 }
+    - name: Revenge of the Titans
+      hours: 11.0
+      last_played: Sep 18, 2015
+      achievements: { earned: 27, total: 77 }
+    - name: "Detroit: Become Human"
+      hours: 11.0
+      last_played: Feb 26
+      achievements: { earned: 30, total: 48 }
+    - name: Farthest Frontier
+      hours: 11.0
+      last_played: Aug 16, 2024
+      achievements: { earned: 0, total: 74 }
+    - name: "Wargame: European Escalation"
+      hours: 10.9
+      last_played: Nov 23, 2012
+      achievements: { earned: 2, total: 29 }
+    - name: Cities XL 2012
+      hours: 10.9
+      last_played: Jan 2, 2013
+    - name: Long Live The Queen
+      hours: 10.9
+      last_played: Jan 18, 2015
+      achievements: { earned: 10, total: 45 }
+    - name: Noita
+      hours: 10.8
+      last_played: Jan 3, 2025
+      achievements: { earned: 3, total: 14 }
+    - name: Magicka
+      hours: 10.7
+      last_played: May 29, 2014
+      achievements: { earned: 25, total: 88 }
+    - name: Mind Over Magic
+      hours: 10.6
+      last_played: Jul 11, 2024
+      achievements: { earned: 0, total: 82 }
+    - name: Fort Triumph
+      hours: 10.6
+      last_played: Jun 15, 2020
+      achievements: { earned: 15, total: 27 }
+    - name: Earthtongue
+      hours: 10.4
+      last_played: Oct 10, 2016
+      achievements: { earned: 21, total: 35 }
+    - name: Dawn Apart
+      hours: 10.3
+      last_played: Sep 17, 2025
+      achievements: { earned: 6, total: 9 }
+    - name: "Din's Champion"
+      hours: 10.1
+      last_played: Dec 1, 2025
+      achievements: { earned: 19, total: 87 }
+    - name: Mindustry
+      hours: 10.0
+      last_played: Mar 3, 2021
+      achievements: { earned: 14, total: 87 }
+    - name: Pioneers of Pagonia
+      hours: 9.9
+      last_played: May 11, 2025
+      achievements: { earned: 0, total: 48 }
+    - name: Blueprint Tycoon
+      hours: 9.6
+      last_played: Sep 27, 2016
+      achievements: { earned: 32, total: 45 }
+    - name: Spore
+      hours: 9.5
+      last_played: Aug 13, 2011
+    - name: The Spatials
+      hours: 9.5
+      last_played: Jul 12, 2015
+      achievements: { earned: 20, total: 48 }
+    - name: Slipways
+      hours: 9.4
+      last_played: Aug 12, 2024
+      achievements: { earned: 12, total: 72 }
+    - name: From Dust
+      hours: 9.1
+      last_played: Aug 27, 2012
+    - name: Planetbase
+      hours: 9.0
+      last_played: Aug 1, 2024
+      achievements: { earned: 4, total: 30 }
+    - name: "Sol 0: Mars Colonization"
+      hours: 9.0
+      last_played: Jan 22, 2016
+      achievements: { earned: 0, total: 6 }
+    - name: SpaceBourne 2
+      hours: 8.9
+      last_played: Jan 28
+      achievements: { earned: 4, total: 64 }
+    - name: "Total War: ROME II - Emperor Edition"
+      hours: 8.7
+      last_played: Jan 19, 2015
+      achievements: { earned: 6, total: 188 }
+    - name: "Defender's Quest: Valley of the Forgotten"
+      hours: 8.6
+      last_played: Jun 16, 2016
+      achievements: { earned: 8, total: 30 }
+    - name: Slay the Spire
+      hours: 8.5
+      last_played: May 20, 2024
+      achievements: { earned: 6, total: 46 }
+    - name: "Halcyon 6: Lightspeed Edition"
+      hours: 8.4
+      last_played: Dec 27, 2018
+      achievements: { earned: 25, total: 82 }
+    - name: Infection Free Zone
+      hours: 8.4
+      last_played: Jun 27, 2024
+      achievements: { earned: 7, total: 33 }
+    - name: Atom Zombie Smasher
+      hours: 8.3
+      last_played: Jul 28, 2013
+      achievements: { earned: 16, total: 40 }
+    - name: Portal 2
+      hours: 8.1
+      last_played: Mar 20, 2015
+      achievements: { earned: 3, total: 51 }
+    - name: Thrive
+      hours: 8.0
+      last_played: Jan 21, 2023
+      achievements: { earned: 0, total: 12 }
+    - name: Cities XL Platinum
+      hours: 7.9
+      last_played: Dec 21, 2014
+    - name: MidBoss
+      hours: 7.9
+      last_played: Jun 6, 2020
+      achievements: { earned: 3, total: 22 }
+    - name: Forsaken Isle
+      hours: 7.9
+      last_played: Apr 20, 2015
+    - name: Mini Motorways
+      hours: 7.9
+      last_played: Sep 19, 2021
+      achievements: { earned: 16, total: 165 }
+    - name: "Workers & Resources: Soviet Republic"
+      hours: 7.9
+      last_played: Jun 26, 2024
+      achievements: { earned: 1, total: 17 }
+    - name: Wasteland 2
+      hours: 7.9
+      last_played: Jun 12, 2016
+      achievements: { earned: 0, total: 46 }
+    - name: One Way Heroics
+      hours: 7.8
+      last_played: Aug 24, 2014
+      achievements: { earned: 9, total: 59 }
+    - name: Here Comes The Swarm
+      hours: 7.7
+      last_played: Mar 15
+      achievements: { earned: 7, total: 57 }
+    - name: Mini Metro
+      hours: 7.7
+      last_played: Jul 8, 2016
+      achievements: { earned: 2, total: 73 }
+    - name: "Recettear: An Item Shop's Tale"
+      hours: 7.6
+      last_played: Nov 30, 2015
+    - name: Concrete Jungle
+      hours: 7.5
+      last_played: Jul 9, 2016
+      achievements: { earned: 5, total: 13 }
+    - name: "Warhammer 40,000: Dawn of War - Soulstorm"
+      hours: 7.5
+      last_played: Aug 13, 2011
+    - name: Urbek City Builder
+      hours: 7.3
+      last_played: Jul 29, 2024
+      achievements: { earned: 10, total: 103 }
+    - name: Rust
+      hours: 7.3
+      last_played: Aug 22, 2016
+      achievements: { earned: 0, total: 102 }
+    - name: Utopia
+      hours: 7.2
+      last_played: Apr 8, 2021
+      achievements: { earned: 5, total: 35 }
+    - name: dotAGE
+      hours: 7.1
+      last_played: Apr 20, 2024
+      achievements: { earned: 12, total: 157 }
+    - name: "Dragon Age: Origins - Ultimate Edition"
+      hours: 6.8
+      last_played: Nov 17, 2014
+    - name: Frozen Synapse Prime
+      hours: 6.8
+      last_played: Apr 11, 2015
+      achievements: { earned: 9, total: 30 }
+    - name: "The Elder Scrolls V: Skyrim VR"
+      hours: 6.8
+      last_played: Jan 17, 2021
+      achievements: { earned: 0, total: 75 }
+    - name: Magicite
+      hours: 6.6
+      last_played: Mar 1, 2015
+    - name: HAWKEN
+      hours: 6.6
+      last_played: Oct 3, 2014
+    - name: Spelunky
+      hours: 6.4
+      last_played: Dec 19, 2014
+      achievements: { earned: 4, total: 20 }
+    - name: Amazing Cultivation Simulator
+      hours: 6.4
+      last_played: May 17, 2022
+      achievements: { earned: 1, total: 408 }
+    - name: Astrometica
+      hours: 6.4
+      last_played: Aug 17, 2025
+      achievements: { earned: 8, total: 19 }
+    - name: Fate Tectonics
+      hours: 6.2
+      last_played: Jun 6, 2016
+      achievements: { earned: 24, total: 54 }
+    - name: Stellar Reach
+      hours: 5.9
+      last_played: Oct 30, 2025
+      achievements: { earned: 0, total: 22 }
+    - name: World of Goo
+      hours: 5.8
+      last_played: Aug 13, 2011
+      achievements: { earned: 0, total: 8 }
+    - name: Before We Leave
+      hours: 5.8
+      last_played: Jul 29, 2023
+      achievements: { earned: 2, total: 56 }
+    - name: Spacebase DF-9
+      hours: 5.8
+      last_played: Jan 4, 2015
+    - name: Armello
+      hours: 5.7
+      last_played: Mar 2, 2019
+      achievements: { earned: 6, total: 50 }
+    - name: Caves of Qud
+      hours: 5.7
+      last_played: Jun 23, 2024
+      achievements: { earned: 0, total: 150 }
+    - name: Trine 2
+      hours: 5.7
+      last_played: Mar 17, 2015
+      achievements: { earned: 11, total: 97 }
+    - name: ENDLESS Dungeon™ - Definitive Edition
+      hours: 5.6
+      last_played: May 20, 2024
+      achievements: { earned: 4, total: 50 }
+    - name: Fate of the World
+      hours: 5.5
+      last_played: Jan 6, 2013
+      achievements: { earned: 2, total: 32 }
+    - name: Unholy Heights
+      hours: 5.5
+      last_played: Oct 30, 2014
+      achievements: { earned: 8, total: 20 }
+    - name: "Lichdom: Battlemage"
+      hours: 5.4
+      last_played: Dec 9, 2014
+      achievements: { earned: 6, total: 59 }
+    - name: The Legend of Korra™
+      hours: 5.4
+      last_played: Dec 19, 2014
+      achievements: { earned: 15, total: 30 }
+    - name: Terra Nil
+      hours: 5.3
+      last_played: Jul 18, 2024
+      achievements: { earned: 2, total: 37 }
+    - name: The Wandering Village
+      hours: 5.3
+      last_played: Jan 18, 2024
+      achievements: { earned: 2, total: 32 }
+    - name: GRAV
+      hours: 5.3
+      last_played: Jan 23, 2015
+    - name: APOX
+      hours: 5.3
+      achievements: { earned: 0, total: 47 }
+    - name: "Analogue: A Hate Story"
+      hours: 5.2
+      last_played: Apr 13, 2013
+      achievements: { earned: 5, total: 14 }
+    - name: Monaco
+      hours: 5.2
+      last_played: Dec 16, 2015
+      achievements: { earned: 0, total: 13 }
+    - name: Ruinarch
+      hours: 5.2
+      last_played: Jun 12, 2022
+      achievements: { earned: 0, total: 28 }
+    - name: "Driftland: The Magic Revival"
+      hours: 5.2
+      last_played: Dec 15, 2019
+      achievements: { earned: 13, total: 40 }
+    - name: ACRES
+      hours: 5.1
+      last_played: Nov 5, 2023
+      achievements: { earned: 15, total: 71 }
+    - name: Portal
+      hours: 5.1
+      achievements: { earned: 6, total: 15 }
+    - name: Infinifactory
+      hours: 5.1
+      last_played: Apr 11, 2015
+      achievements: { earned: 0, total: 22 }
+    - name: ISLANDERS
+      hours: 5.0
+      last_played: May 3, 2020
+      achievements: { earned: 19, total: 38 }
+    - name: Steam Marines
+      hours: 5.0
+      last_played: May 31, 2015
+      achievements: { earned: 1, total: 15 }
+    - name: Gratuitous Tank Battles
+      hours: 4.8
+      last_played: Aug 1, 2013
+      achievements: { earned: 3, total: 24 }
+    - name: Grey Goo
+      hours: 4.7
+      last_played: Jan 26, 2015
+      achievements: { earned: 5, total: 35 }
+    - name: Planetary Life
+      hours: 4.7
+      last_played: Aug 17, 2025
+      achievements: { earned: 14, total: 22 }
+    - name: Slime Rancher 2
+      hours: 4.7
+      last_played: Jan 12, 2024
+      achievements: { earned: 0, total: 27 }
+    - name: MEMORIA POLIS
+      hours: 4.3
+      last_played: Sep 14, 2024
+      achievements: { earned: 0, total: 44 }
+    - name: Manor Lords
+      hours: 4.2
+      last_played: May 1, 2024
+      achievements: { earned: 4, total: 11 }
+    - name: Songs of Silence
+      hours: 4.2
+      last_played: May 18, 2025
+      achievements: { earned: 1, total: 56 }
+    - name: "Kingdom: Classic"
+      hours: 4.1
+      last_played: Jun 25, 2016
+      achievements: { earned: 6, total: 34 }
+    - name: SMITE
+      hours: 4.0
+      last_played: Aug 22, 2016
+      achievements: { earned: 3, total: 319 }
+    - name: TerraTech
+      hours: 3.9
+      last_played: Aug 17, 2016
+      achievements: { earned: 0, total: 15 }
+    - name: ENDLESS Legend™ 2
+      hours: 3.9
+      last_played: Jun 26
+      achievements: { earned: 1, total: 56 }
+    - name: TowerFall Ascension
+      hours: 3.9
+      last_played: Dec 5, 2017
+      achievements: { earned: 0, total: 30 }
+    - name: Teardown
+      hours: 3.9
+      last_played: Jun 29, 2024
+      achievements: { earned: 1, total: 27 }
+    - name: "The Witcher 2: Assassins of Kings Enhanced Edition"
+      hours: 3.7
+      last_played: Dec 31, 2012
+      achievements: { earned: 4, total: 52 }
+    - name: Gimbal
+      hours: 3.7
+      last_played: Jul 21, 2014
+    - name: MONSTER HUNTER RISE
+      hours: 3.7
+      last_played: Dec 25, 2024
+      achievements: { earned: 1, total: 100 }
+    - name: Particulars
+      hours: 3.6
+      last_played: Jun 21, 2015
+      achievements: { earned: 35, total: 63 }
+    - name: Kingdoms and Castles
+      hours: 3.6
+      last_played: Jan 11, 2024
+      achievements: { earned: 6, total: 12 }
+    - name: Industry Idle
+      hours: 3.5
+      last_played: Jun 7, 2025
+      achievements: { earned: 0, total: 71 }
+    - name: TerraScape
+      hours: 3.4
+      last_played: Jul 18, 2024
+      achievements: { earned: 22, total: 70 }
+    - name: Imagine Earth
+      hours: 3.3
+      last_played: Jun 1, 2025
+      achievements: { earned: 1, total: 25 }
+    - name: Out of Ore
+      hours: 3.3
+      last_played: Jun 24, 2025
+    - name: "Wanderlust: Rebirth"
+      hours: 3.3
+      last_played: Jul 25, 2013
+      achievements: { earned: 6, total: 30 }
+    - name: Age of Empires II (2013)
+      hours: 3.2
+      last_played: Nov 9, 2015
+      achievements: { earned: 14, total: 294 }
+    - name: SYNTHETIK
+      hours: 3.2
+      last_played: Jan 4, 2020
+      achievements: { earned: 0, total: 27 }
+    - name: Natural Selection 2
+      hours: 3.2
+      last_played: Sep 3, 2012
+      achievements: { earned: 0, total: 137 }
+    - name: Evolve Stage 2
+      hours: 3.1
+      last_played: Sep 5, 2015
+    - name: Altitude
+      hours: 3.1
+      achievements: { earned: 18, total: 52 }
+    - name: Crypt of the NecroDancer
+      hours: 3.1
+      last_played: Oct 22, 2018
+      achievements: { earned: 2, total: 61 }
+    - name: Magic Research 2
+      hours: 3.1
+      last_played: Mar 12, 2025
+      achievements: { earned: 3, total: 34 }
+    - name: IXION
+      hours: 3.0
+      last_played: Oct 10, 2025
+      achievements: { earned: 4, total: 57 }
+    - name: Gunpoint
+      hours: 3.0
+      last_played: Dec 17, 2014
+      achievements: { earned: 6, total: 42 }
+    - name: Life is Strange™
+      hours: 3.0
+      last_played: Feb 4, 2015
+      achievements: { earned: 4, total: 60 }
+    - name: Moons of Ardan
+      hours: 2.9
+      last_played: Dec 9, 2023
+      achievements: { earned: 0, total: 43 }
+    - name: Core Defense
+      hours: 2.8
+      last_played: Sep 19, 2021
+      achievements: { earned: 16, total: 50 }
+    - name: "Kingdom: New Lands"
+      hours: 2.8
+      last_played: Oct 30, 2016
+      achievements: { earned: 6, total: 34 }
+    - name: Galaxy Burger
+      hours: 2.7
+      last_played: Mar 16
+      achievements: { earned: 3, total: 14 }
+    - name: WorldBox - God Simulator
+      hours: 2.7
+      last_played: Apr 21, 2024
+      achievements: { earned: 7, total: 54 }
+    - name: "Desktopia: A Desktop Village Simulator"
+      hours: 2.7
+      last_played: Mar 17, 2023
+      achievements: { earned: 2, total: 14 }
+    - name: Hero Siege
+      hours: 2.7
+      last_played: Dec 16, 2014
+      achievements: { earned: 1, total: 112 }
+    - name: "Iron Grip: Warlord"
+      hours: 2.7
+      achievements: { earned: 0, total: 18 }
+    - name: "King Arthur's Gold"
+      hours: 2.6
+      last_played: Aug 15, 2014
+      achievements: { earned: 0, total: 64 }
+    - name: "Don't Starve Together"
+      hours: 2.6
+      last_played: Apr 23, 2015
+    - name: Stacklands
+      hours: 2.6
+      last_played: Apr 10, 2025
+      achievements: { earned: 17, total: 36 }
+    - name: Half-Earth Socialism
+      hours: 2.6
+      last_played: Jul 28, 2023
+    - name: Dorfromantik
+      hours: 2.5
+      last_played: Jun 22, 2024
+      achievements: { earned: 7, total: 85 }
+    - name: Medieval Dynasty
+      hours: 2.5
+      last_played: Mar 13
+      achievements: { earned: 1, total: 44 }
+    - name: "Din's Legacy"
+      hours: 2.4
+      last_played: Jul 4, 2019
+      achievements: { earned: 6, total: 70 }
+    - name: Mewgenics
+      hours: 2.4
+      last_played: Feb 28
+      achievements: { earned: 5, total: 281 }
+    - name: Gratuitous Space Battles
+      hours: 2.4
+    - name: "Red Faction: Armageddon"
+      hours: 2.3
+      last_played: Jan 3, 2013
+      achievements: { earned: 4, total: 58 }
+    - name: Flotilla
+      hours: 2.3
+    - name: "The Binding of Isaac: Rebirth"
+      hours: 2.2
+      last_played: Dec 5, 2017
+      achievements: { earned: 3, total: 641 }
+    - name: Let Them Trade
+      hours: 2.2
+      last_played: Aug 21, 2025
+      achievements: { earned: 0, total: 32 }
+    - name: Outpost
+      hours: 2.2
+      last_played: May 4, 2020
+      achievements: { earned: 16, total: 42 }
+    - name: Uplink
+      hours: 2.2
+    - name: Solar 2
+      hours: 2.1
+      last_played: Oct 29, 2014
+      achievements: { earned: 2, total: 25 }
+    - name: Prosperous Universe
+      hours: 1.9
+      last_played: Nov 3, 2025
+    - name: Besiege
+      hours: 1.9
+      last_played: Jan 30, 2015
+      achievements: { earned: 0, total: 54 }
+    - name: HunieCam Studio
+      hours: 1.9
+      last_played: Apr 5, 2016
+      achievements: { earned: 3, total: 16 }
+    - name: Lumencraft
+      hours: 1.9
+      last_played: Sep 18, 2025
+      achievements: { earned: 1, total: 88 }
+    - name: Outpath
+      hours: 1.8
+      last_played: Dec 6, 2023
+      achievements: { earned: 17, total: 89 }
+    - name: Slay the Princess — The Pristine Cut
+      hours: 1.8
+      last_played: Dec 27, 2025
+      achievements: { earned: 7, total: 131 }
+    - name: Eufloria
+      hours: 1.7
+      achievements: { earned: 0, total: 18 }
+    - name: "Teleglitch: Die More Edition"
+      hours: 1.7
+      last_played: Jun 13, 2015
+      achievements: { earned: 2, total: 39 }
+    - name: "Plague Inc: Evolved"
+      hours: 1.7
+      last_played: Mar 15, 2020
+      achievements: { earned: 8, total: 250 }
+    - name: Nova Lands
+      hours: 1.6
+      last_played: Jan 23, 2024
+      achievements: { earned: 0, total: 24 }
+    - name: 0RBITALIS
+      hours: 1.6
+      last_played: May 28, 2015
+      achievements: { earned: 9, total: 38 }
+    - name: Hate Plus
+      hours: 1.5
+      last_played: May 28, 2015
+      achievements: { earned: 0, total: 11 }
+    - name: Fortify
+      hours: 1.4
+      last_played: Apr 9, 2016
+      achievements: { earned: 9, total: 27 }
+    - name: StarVaders
+      hours: 1.4
+      last_played: Nov 30, 2025
+      achievements: { earned: 10, total: 100 }
+    - name: Necesse
+      hours: 1.3
+      last_played: Nov 1, 2025
+      achievements: { earned: 4, total: 48 }
+    - name: Backpack Battles
+      hours: 1.2
+      last_played: Sep 15, 2024
+      achievements: { earned: 0, total: 230 }
+    - name: Hammerwatch
+      hours: 1.1
+      last_played: Dec 9, 2017
+      achievements: { earned: 0, total: 38 }
+    - name: Solium Infernum
+      hours: 1.1
+      last_played: Mar 21, 2025
+      achievements: { earned: 2, total: 48 }
+    - name: "Blossom: The Seed Of Life"
+      hours: 1.1
+      last_played: May 10
+      achievements: { earned: 2, total: 33 }
+    - name: Road Not Taken
+      hours: 1.1
+      last_played: Apr 11, 2016
+      achievements: { earned: 3, total: 20 }
+    - name: System Protocol One
+      hours: 1.0
+      achievements: { earned: 1, total: 32 }
+    - name: Mechabellum
+      hours: 0.9
+      last_played: Jan 3, 2024
+    - name: "Pan'orama"
+      hours: 0.9
+      last_played: Aug 30, 2023
+      achievements: { earned: 0, total: 27 }
+    - name: "Survivalist: Invisible Strain"
+      hours: 0.9
+      last_played: Feb 19
+      achievements: { earned: 0, total: 33 }
+    - name: Hack, Slash, Loot
+      hours: 0.9
+      last_played: Jul 11, 2014
+      achievements: { earned: 1, total: 18 }
+    - name: Stellar Settlers
+      hours: 0.9
+      last_played: Apr 11, 2025
+      achievements: { earned: 1, total: 30 }
+    - name: "Distant Star: Revenant Fleet"
+      hours: 0.9
+      last_played: Jan 12, 2015
+      achievements: { earned: 0, total: 28 }
+    - name: Project Zomboid
+      hours: 0.8
+      last_played: Jan 14, 2015
+    - name: shapez
+      hours: 0.8
+      last_played: Oct 22, 2021
+      achievements: { earned: 5, total: 45 }
+    - name: Team Fortress 2
+      hours: 0.8
+      achievements: { earned: 4, total: 520 }
+    - name: "Occupy Mars: The Game"
+      hours: 0.7
+      last_played: Jul 9, 2025
+      achievements: { earned: 0, total: 46 }
+    - name: Shadows of Forbidden Gods
+      hours: 0.7
+      last_played: Mar 12, 2025
+      achievements: { earned: 0, total: 35 }
+    - name: Mini Settlers
+      hours: 0.6
+      last_played: May 9, 2025
+      achievements: { earned: 3, total: 67 }
+    - name: Universe Sandbox Legacy
+      hours: 0.6
+      achievements: { earned: 2, total: 16 }
+    - name: Savage Vessels
+      hours: 0.6
+      last_played: Jan 23, 2022
+      achievements: { earned: 2, total: 17 }
+    - name: Aven Colony
+      hours: 0.6
+      last_played: May 20, 2021
+      achievements: { earned: 0, total: 48 }
+    - name: Dota 2
+      hours: 0.6
+      last_played: Mar 15, 2012
+    - name: Flight of the Icarus
+      hours: 0.5
+    - name: Reprisal Universe
+      hours: 0.5
+      last_played: Oct 29, 2014
+    - name: Dwarf Tower
+      hours: 0.5
+      last_played: Jan 22, 2015
+      achievements: { earned: 0, total: 45 }
+    - name: Executive Assault 2
+      hours: 0.5
+      last_played: Nov 11, 2025
+    - name: Legend of Dungeon
+      hours: 0.5
+      last_played: Apr 25, 2014
+      achievements: { earned: 0, total: 16 }
+    - name: Palia
+      hours: 0.5
+      last_played: Dec 22, 2024
+      achievements: { earned: 0, total: 52 }
+    - name: Hades
+      hours: 0.4
+      last_played: Apr 21, 2024
+      achievements: { earned: 14, total: 49 }
+    - name: "Dust: An Elysian Tail"
+      hours: 0.4
+      last_played: Apr 26, 2014
+      achievements: { earned: 4, total: 30 }
+    - name: Unturned
+      hours: 0.4
+      last_played: Jun 20, 2015
+      achievements: { earned: 0, total: 95 }
+    - name: Beecarbonize
+      hours: 0.3
+      last_played: Dec 25, 2023
+      achievements: { earned: 1, total: 28 }
+    - name: DogFighter
+      hours: 0.3
+      achievements: { earned: 0, total: 29 }
+    - name: "Geometry Wars 3: Dimensions Evolved"
+      hours: 0.3
+      last_played: Jan 17, 2015
+      achievements: { earned: 0, total: 30 }
+    - name: Production Line
+      hours: 0.3
+      last_played: Dec 23, 2019
+      achievements: { earned: 0, total: 32 }
+    - name: Territory
+      hours: 0.3
+      last_played: Mar 4, 2023
+      achievements: { earned: 2, total: 20 }
+    - name: Dominions 5
+      hours: 0.3
+      last_played: Jan 18, 2024
+    - name: Fortix
+      hours: 0.3
+      achievements: { earned: 2, total: 12 }
+    - name: Fluffy Horde
+      hours: 0.2
+      last_played: Jan 4, 2020
+      achievements: { earned: 1, total: 4 }
+    - name: Catlateral Damage
+      hours: 0.2
+      last_played: Jan 26, 2024
+      achievements: { earned: 1, total: 34 }
+    - name: DETOUR
+      hours: 0.2
+      achievements: { earned: 0, total: 26 }
+    - name: Rail Route
+      hours: 0.2
+      last_played: May 30, 2025
+      achievements: { earned: 3, total: 76 }
+    - name: Destination Sol
+      hours: 0.2
+      last_played: Dec 17, 2015
+    - name: Outward
+      hours: 0.2
+      last_played: Sep 15, 2024
+      achievements: { earned: 1, total: 72 }
+    - name: Everyday Shooter
+      hours: 0.2
+    - name: Roots of Pacha
+      hours: 0.1
+      last_played: Dec 20, 2024
+      achievements: { earned: 0, total: 62 }
+    - name: How to Survive
+      hours: 0.1
+      last_played: May 20, 2021
+      achievements: { earned: 1, total: 43 }
+    - name: OTTTD
+      hours: 0.0
+      last_played: May 10, 2015
+      achievements: { earned: 0, total: 41 }
+    - name: "ARK: Survival Of The Fittest"
+    - name: Arma 2
+    - name: "Arma 2: DayZ Mod"
+    - name: "Arma 2: Operation Arrowhead"
+    - name: "Arma 2: Operation Arrowhead Beta (Obsolete)"
+    - name: Autonauts
+      achievements: { earned: 0, total: 26 }
+    - name: "Avadon: The Black Fortress"
+      achievements: { earned: 0, total: 30 }
+    - name: The Cat Lady
+      achievements: { earned: 0, total: 25 }
+    - name: Company of Heroes
+    - name: Company of Heroes 2
+      achievements: { earned: 0, total: 452 }
+    - name: "Company of Heroes: Opposing Fronts"
+    - name: "Company of Heroes: Tales of Valor"
+    - name: Crash Bandicoot™ N. Sane Trilogy
+      achievements: { earned: 0, total: 74 }
+    - name: Creeper World 4
+      achievements: { earned: 0, total: 29 }
+    - name: Darksiders
+      achievements: { earned: 0, total: 43 }
+    - name: Darksiders Warmastered Edition
+      achievements: { earned: 0, total: 43 }
+    - name: Dead Space 2
+    - name: Diplomacy is Not an Option
+      achievements: { earned: 0, total: 60 }
+    - name: "Doc Clock: The Toasted Sandwich of Time"
+      achievements: { earned: 0, total: 12 }
+    - name: Dome Keeper
+      achievements: { earned: 0, total: 47 }
+    - name: "A Druid's Duel"
+      achievements: { earned: 0, total: 49 }
+    - name: Elven Assassin
+      achievements: { earned: 0, total: 21 }
+    - name: Eufloria HD
+      achievements: { earned: 0, total: 20 }
+    - name: Evergarden
+      achievements: { earned: 0, total: 21 }
+    - name: "The Expanse: A Telltale Series"
+      achievements: { earned: 0, total: 35 }
+    - name: Fallout
+    - name: Fallout 2
+    - name: Fallout 4 VR
+      achievements: { earned: 0, total: 50 }
+    - name: Fallout 76 Public Test Server
+    - name: Fallout Tactics
+    - name: Full Metal Furies
+      achievements: { earned: 0, total: 36 }
+    - name: Gladiabots
+      achievements: { earned: 2, total: 67 }
+    - name: Godus Wars
+    - name: Grim Dawn
+      achievements: { earned: 0, total: 185 }
+    - name: "Hack 'n' Slash"
+    - name: Hacker Evolution
+    - name: hackmud
+    - name: "Halcyon 6: Starbase Commander (CLASSIC)"
+      achievements: { earned: 0, total: 69 }
+    - name: "Half-Life 2: Deathmatch"
+    - name: Haven
+      achievements: { earned: 0, total: 30 }
+    - name: Hydroneer
+      achievements: { earned: 0, total: 78 }
+    - name: Interplanetary
+      achievements: { earned: 0, total: 25 }
+    - name: "Interplanetary: Enhanced Edition"
+      achievements: { earned: 0, total: 27 }
+    - name: The Invincible
+      achievements: { earned: 0, total: 29 }
+    - name: Jumplight Odyssey
+    - name: "Kaya's Prophecy"
+      achievements: { earned: 0, total: 22 }
+    - name: Kitsune Tails
+      achievements: { earned: 0, total: 30 }
+    - name: The Last Remnant
+    - name: Lilly Looking Through
+    - name: The Long Dark
+      achievements: { earned: 0, total: 87 }
+    - name: A Long Journey to an Uncertain End
+    - name: Magicka 2
+      achievements: { earned: 0, total: 47 }
+    - name: "Mass Effect™: Andromeda Deluxe Edition"
+      achievements: { earned: 0, total: 55 }
+    - name: Metro 2033
+      achievements: { earned: 0, total: 48 }
+    - name: Metrocide
+      achievements: { earned: 0, total: 33 }
+    - name: Ms. Splosion Man
+      achievements: { earned: 0, total: 12 }
+    - name: My Time at Portia
+      achievements: { earned: 0, total: 91 }
+    - name: My Time at Sandrock
+      achievements: { earned: 0, total: 60 }
+    - name: "Nexus: The Jupiter Incident"
+    - name: NiGHTS into Dreams...
+      achievements: { earned: 0, total: 13 }
+    - name: "Oscura: Lost Light"
+      achievements: { earned: 0, total: 7 }
+    - name: The Outer Worlds
+      achievements: { earned: 0, total: 68 }
+    - name: Poly Bridge
+      achievements: { earned: 0, total: 22 }
+    - name: Project Highrise
+      achievements: { earned: 0, total: 88 }
+    - name: Raw Data
+      achievements: { earned: 0, total: 46 }
+    - name: Rebel Galaxy
+      achievements: { earned: 0, total: 37 }
+    - name: Red Faction Guerrilla Re-Mars-tered
+      achievements: { earned: 0, total: 57 }
+    - name: "Red Faction: Guerrilla Steam Edition"
+      achievements: { earned: 0, total: 60 }
+    - name: Regions Of Ruin
+      achievements: { earned: 0, total: 20 }
+    - name: Regular Human Basketball
+      achievements: { earned: 0, total: 20 }
+    - name: Remember Me
+      achievements: { earned: 0, total: 50 }
+    - name: Rust - Staging Branch
+      achievements: { earned: 0, total: 6 }
+    - name: Secret World Legends
+    - name: Shadowrun Returns
+    - name: Shattered Planet
+      achievements: { earned: 0, total: 70 }
+    - name: Shortest Trip to Earth
+      achievements: { earned: 0, total: 78 }
+    - name: Space Architect
+      achievements: { earned: 0, total: 24 }
+    - name: Space Run Galaxy
+      achievements: { earned: 0, total: 30 }
+    - name: Spyro™ Reignited Trilogy
+      achievements: { earned: 0, total: 105 }
+    - name: Star Renegades
+      achievements: { earned: 0, total: 44 }
+    - name: Starbound - Unstable
+      achievements: { earned: 0, total: 51 }
+    - name: StarDrive
+    - name: SteamWorld Dig
+      achievements: { earned: 0, total: 24 }
+    - name: Stronghold Crusader Extreme HD
+    - name: Stronghold Crusader HD
+    - name: Sword of the Necromancer
+      achievements: { earned: 0, total: 26 }
+    - name: "Total War: EMPIRE - Definitive Edition"
+      achievements: { earned: 0, total: 30 }
+    - name: Townscaper
+    - name: Tropico 4
+      achievements: { earned: 0, total: 70 }
+    - name: Twin Sector
+    - name: "Valdis Story: Abyssal City"
+      achievements: { earned: 0, total: 77 }
+    - name: VVVVVV
+      achievements: { earned: 0, total: 19 }
+    - name: "Warhammer 40,000: Dawn of War - Anniversary Edition"
+    - name: "Warhammer 40,000: Dawn of War - Dark Crusade"
+    - name: "Warhammer 40,000: Dawn of War - Winter Assault"
+    - name: Wasteland 1 - The Original Classic
+    - name: Watch_Dogs 2
+      achievements: { earned: 0, total: 55 }
+    - name: Worbital
+      achievements: { earned: 0, total: 43 }
+    - name: XenoBloom
+    - name: The Yawhg
