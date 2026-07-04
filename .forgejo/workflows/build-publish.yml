@@ -1,10 +1,21 @@
-name: build-publish
-
 # Tests, then builds and publishes the steam-mcp image to the in-cluster
 # registry on every push to main. No deploy stage here: rollout is driven from
 # coilyco-bridge/deploy per the layer invariant (source -> deploy). Mirrors
 # coilyco-flight-deck/reddit-mcp's build-publish. The repo is steam-ops, but the
 # image/service is steam-mcp.
+#
+# Per-step notes for the publish job (the code-comments YAML rule keeps rationale
+# up here in the header rather than inline beside the steps):
+# - Install docker CLI: the `docker` runner label resolves to node:20-bookworm,
+#   which ships git + curl but no docker CLI. Pull it in as a static binary;
+#   docker talks to the DinD sidecar over DOCKER_HOST. Same shape as reddit-mcp.
+# - Resolve docker host: the DinD sidecar shares the runner pod's netns on :2375,
+#   but the job container sits on a separate per-workflow bridge - so probe
+#   candidate hosts and pin the first that answers. Same shape as reddit-mcp.
+# - Build and push: to the in-cluster registry. The DinD sidecar carries
+#   --insecure-registry=192.168.0.194:30500, so the plain-http push round-trips.
+#   Legacy builder (no buildx plugin in the static CLI).
+name: build-publish
 
 on:
   push:
@@ -28,9 +39,6 @@ jobs:
     needs: [test]
     steps:
       - uses: actions/checkout@v4
-      # The `docker` runner label resolves to node:20-bookworm, which ships
-      # git + curl but no docker CLI. Pull it in as a static binary; docker
-      # talks to the DinD sidecar over DOCKER_HOST. Same shape as reddit-mcp.
       - name: Install docker CLI
         run: |
           set -euo pipefail
@@ -40,9 +48,6 @@ jobs:
           curl -fsSL "https://download.docker.com/linux/static/stable/x86_64/docker-${docker_cli_ver}.tgz" \
             | tar -xz -C /tmp
           install /tmp/docker/docker /usr/local/bin/docker
-      # The DinD sidecar shares the runner pod's netns on :2375, but the job
-      # container sits on a separate per-workflow bridge - so probe candidate
-      # hosts and pin the first that answers. Same shape as reddit-mcp.
       - name: Resolve docker host
         run: |
           set -euo pipefail
@@ -59,9 +64,6 @@ jobs:
           done
           echo "no reachable docker daemon" >&2
           exit 1
-      # Build and push to the in-cluster registry. The DinD sidecar carries
-      # --insecure-registry=192.168.0.194:30500, so the plain-http push
-      # round-trips. Legacy builder (no buildx plugin in the static CLI).
       - name: Build and push
         run: |
           set -euo pipefail

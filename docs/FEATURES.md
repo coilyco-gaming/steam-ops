@@ -9,6 +9,10 @@ Living inventory of what ships from this repo. One image, one process: a FastMCP
 
 Each returns `{source, count, items}`; `items` are normalized game records: `appid`, `name`, `playtime_forever_minutes`, `playtime_forever_hours`, `playtime_2weeks_minutes`, `last_played_unix` (None when Steam reports no last-play or the profile is private).
 
+## Server metadata
+
+- **Steam brand icon** - the server's `initialize` response advertises `serverInfo.icons` carrying Valve's official Steam mark (an SVG data URI, committed at [`../src/steam_mcp/assets/steam-icon.svg`](../src/steam_mcp/assets/steam-icon.svg)), so clients that render server icons - the claude.ai connector tile - show the Steam logo instead of a generic placeholder.
+
 ## Security envelope
 
 - **Read-only by construction** - a Steam Web API key over `IPlayerService` reads a library; it cannot post, trade, refund, or act on the account (deploy#30). No write tool exists, and no tool both ingests untrusted content and can act.

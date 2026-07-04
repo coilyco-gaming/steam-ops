@@ -10,6 +10,7 @@ no write tool.
 
 from __future__ import annotations
 
+import base64
 import importlib
 from types import ModuleType
 
@@ -136,6 +137,25 @@ def test_env_takes_precedence_over_ssm(monkeypatch: pytest.MonkeyPatch) -> None:
     server.get_owned_games()
     assert "key=test-key" in seen["url"]
     assert "steamid=7656119800000000" in seen["url"]
+
+
+def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:
+    """The server's `initialize` response advertises the Steam brand icon.
+
+    Clients that render server icons (the claude.ai connector tile) read
+    `serverInfo.icons` off the initialize result, which the low-level server
+    builds verbatim from `create_initialization_options().icons`. Assert the
+    Steam mark is there as a self-contained SVG data URI, so the tile renders the
+    logo instead of a generic placeholder.
+    """
+    server = _load(monkeypatch)
+    icons = server.mcp._mcp_server.create_initialization_options().icons
+    assert icons, "expected serverInfo to advertise at least one icon"
+    icon = icons[0]
+    assert icon.mimeType == "image/svg+xml"
+    assert icon.src.startswith("data:image/svg+xml;base64,")
+    decoded = base64.b64decode(icon.src.split(",", 1)[1]).decode()
+    assert "<title>Steam</title>" in decoded
 
 
 def test_no_write_tools_registered(monkeypatch: pytest.MonkeyPatch) -> None:

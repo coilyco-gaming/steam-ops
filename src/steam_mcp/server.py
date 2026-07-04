@@ -19,28 +19,47 @@ image, the repo, or a committed config. Each is resolved at runtime,
 server-side, from an env var first and then from SSM (`aws ssm get-parameter
 --with-decryption`), mirroring reddit-mcp's `_ssm` resolver and node-stats'
 env-based config. Env wins so the deploy can inject via an ExternalSecret
-without granting the pod `ssm:GetParameter`. The secrets never leave the box and
-are never logged or returned to callers - only the fetched game records are.
+without granting the pod `ssm:GetParameter`. Both SSM params already exist (used
+by steam-games-cli and the website /now) - this MCP reuses them, it does not
+introduce them. The secrets never leave the box and are never logged or returned
+to callers - only the fetched game records are.
 """
 
 from __future__ import annotations
 
+import base64
 import os
 import subprocess
+from importlib.resources import files
 from typing import Any
 from urllib.parse import urlencode
 
 import requests
 from mcp.server.fastmcp import FastMCP
+from mcp.types import Icon
 
 API_BASE = "https://api.steampowered.com"
 TIMEOUT = 20
 
-# Each secret: (env var checked first, SSM SecureString parameter checked
-# second). Env wins so the deploy can inject via an ExternalSecret without
-# granting the pod ssm:GetParameter, matching node-stats' env-based config and
-# reddit-mcp's resolver. Both SSM params already exist (used by steam-games-cli
-# and the website /now) - this MCP reuses them, it does not introduce them.
+
+def _steam_icon() -> Icon:
+    """The Steam brand mark, embedded as a self-contained data-URI icon.
+
+    Wired into the server's `initialize` response (`serverInfo.icons`) so clients
+    that render server icons - the claude.ai connector tile - show the Steam logo
+    instead of a generic placeholder. The asset is Valve's official Steam brand
+    glyph on a Steam-navy tile, committed at `assets/steam-icon.svg` and read here
+    at import time. It is base64'd into a `data:` URI rather than served over HTTP
+    so the icon has no external dependency and rides inside the initialize payload
+    itself. SVG is scalable, so `sizes=["any"]`.
+    """
+    svg = files("steam_mcp.assets").joinpath("steam-icon.svg").read_bytes()
+    encoded = base64.b64encode(svg).decode("ascii")
+    return Icon(src=f"data:image/svg+xml;base64,{encoded}", mimeType="image/svg+xml", sizes=["any"])
+
+
+# Each secret is (env var checked first, SSM SecureString param second); env wins
+# so the deploy can inject via ExternalSecret without ssm:GetParameter.
 SECRETS = {
     "api_key": ("STEAM_WEB_API_KEY", "/steam/web-api-key"),
     "steamid64": ("STEAM_STEAMID64", "/steam/steam-id-64"),
@@ -50,6 +69,7 @@ mcp = FastMCP(
     "steam",
     host=os.environ.get("HOST", "0.0.0.0"),
     port=int(os.environ.get("PORT", "9112")),
+    icons=[_steam_icon()],
 )
 
 
@@ -185,9 +205,7 @@ def get_recently_played() -> dict[str, Any]:
 
 
 # Register each tool without rebinding its name, so the plain callables stay
-# directly invokable (tests call them; the mcp SDK's decorator return type has
-# varied across versions, so we don't rely on it). Every registered tool is a
-# read - keep it that way (no trade, no purchase, no account mutation).
+# directly invokable (tests call them). Every registered tool is a read - keep it so.
 for _tool in (
     get_owned_games,
     get_recently_played,
