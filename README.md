@@ -26,11 +26,11 @@ A Web API key over `IPlayerService` **reads** a library - it cannot post, trade,
 The key and steamid64 are private and **never** live in the image, the repo, or a committed config. Each resolves at runtime, server-side: an env var first, then SSM SecureString via `aws ssm get-parameter --with-decryption`.
 
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString)
-- `STEAM_STEAMID64` / SSM `/steam/steamid64`
+- `STEAM_STEAMID64` / SSM `/steam/steam-id-64`
 
 Env-first lets the deploy inject via an ExternalSecret without granting the pod `ssm:GetParameter`; the SSM fallback mirrors reddit-mcp's resolver. The secrets never leave the box.
 
-> **Operator prereq:** these two SSM params are **new** (the scrape never used the API). Provision before rollout: `/steam/web-api-key` (a key from https://steamcommunity.com/dev/apikey) and `/steam/steamid64` (the 64-bit steamid).
+> **Operator prereq:** these two SSM params **already exist** (used by steam-games-cli and the website /now) - the MCP reuses them, no new provisioning: `/steam/web-api-key` (a key from https://steamcommunity.com/dev/apikey) and `/steam/steam-id-64` (the 64-bit steamid).
 
 ## Port
 

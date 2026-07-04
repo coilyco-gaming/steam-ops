@@ -19,9 +19,9 @@ Each returns `{source, count, items}`; `items` are normalized game records: `app
 
 - `PORT` (default 9112), `HOST` (default 0.0.0.0).
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString).
-- `STEAM_STEAMID64` / SSM `/steam/steamid64`.
+- `STEAM_STEAMID64` / SSM `/steam/steam-id-64`.
 
-Env is checked first; SSM is the fallback. The secrets never leave the box. The two SSM params are **new** to this MCP (the scrape never used the API) - an operator provisions them before the deploy rolls out.
+Env is checked first; SSM is the fallback. The secrets never leave the box. Both SSM params **already exist** (used by steam-games-cli and the website /now) - this MCP reuses them, it does not introduce them.
 
 ## Superseded predecessor
 

@@ -39,11 +39,11 @@ TIMEOUT = 20
 # Each secret: (env var checked first, SSM SecureString parameter checked
 # second). Env wins so the deploy can inject via an ExternalSecret without
 # granting the pod ssm:GetParameter, matching node-stats' env-based config and
-# reddit-mcp's resolver. These SSM params do not exist yet - they are introduced
-# by this MCP (the scrape never used the API); the deploy provisions them.
+# reddit-mcp's resolver. Both SSM params already exist (used by steam-games-cli
+# and the website /now) - this MCP reuses them, it does not introduce them.
 SECRETS = {
     "api_key": ("STEAM_WEB_API_KEY", "/steam/web-api-key"),
-    "steamid64": ("STEAM_STEAMID64", "/steam/steamid64"),
+    "steamid64": ("STEAM_STEAMID64", "/steam/steam-id-64"),
 }
 
 mcp = FastMCP(
