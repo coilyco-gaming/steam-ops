@@ -29,7 +29,10 @@ Env is checked first; SSM is the fallback. The secrets never leave the box. Both
 
 ## Ops helpers (client-side)
 
-`scripts/sunshine-sync-steam.ps1` is a host-side helper, **not** part of the shipped image or the MCP. On a [Sunshine](https://github.com/LizardByte/Sunshine) streaming host it rebuilds Sunshine's app list from that machine's locally-installed Steam games (`appmanifest_*.acf`), so a Moonlight client shows one launchable tile per game instead of only "Desktop". It talks to the local Sunshine web API - which, running as LocalSystem, writes the admin-owned config - so it needs no Steam Web API key and no elevation. The Sunshine password resolves from `SUNSHINE_WEB_PASSWORD` then an interactive prompt; it never enters the repo. Idempotent: it keeps the tiles named in `-Keep` and rebuilds the rest, so re-run it after installing or uninstalling games (`-DryRun` previews).
+`scripts/` holds host-side helpers, **not** part of the shipped image or the MCP - they run on an operator's own [Sunshine](https://github.com/LizardByte/Sunshine) streaming host, never in the service.
+
+- **`sunshine-sync-steam.ps1`** - rebuilds Sunshine's app list from the host's locally-installed Steam games (`appmanifest_*.acf`), so a Moonlight client shows one launchable tile per game (with PNG box art) instead of only "Desktop". It talks to the local Sunshine web API - which, running as LocalSystem, writes the admin-owned config - so no Steam Web API key and no elevation. The Sunshine password resolves from `SUNSHINE_WEB_PASSWORD` then a prompt; it never enters the repo. Idempotent (`-DryRun` previews).
+- **`steam-airgap.ps1`** - toggles a Windows Firewall block on Steam's networking executables (`-On` / `-Off` / `-Status`), forcing the Steam client offline while Tailscale / Sunshine / Moonlight and the game's own traffic stay up. Lets an airgapped streaming host keep running a game (e.g. X4) while the same account plays online elsewhere - Steam can't be kicked if it can't reach its servers. Self-elevates for the firewall writes.
 
 ## Superseded predecessor
 
