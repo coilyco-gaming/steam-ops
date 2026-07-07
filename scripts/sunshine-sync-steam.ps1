@@ -98,8 +98,17 @@ function Get-BoxArtPng($id, $steam, $artDir) {
     foreach ($u in @(
       "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/library_600x900_2x.jpg",
       "https://steamcdn-a.akamaihd.net/steam/apps/$id/library_600x900.jpg",
-      "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/header.jpg"     # last resort: landscape
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/header.jpg"     # older games: flat /steam/apps path
     )) { try { Invoke-WebRequest $u -OutFile $tmp -TimeoutSec 15; $srcJpg = $tmp; break } catch {} }
+    if (-not $srcJpg) {
+      # Newer games (store_item_assets/<hash>/) 404 on the flat paths. Ask the Steam store
+      # API for the real hashed header/capsule URL - works for any game, new or old.
+      try {
+        $d = Invoke-RestMethod "https://store.steampowered.com/api/appdetails?appids=$id&filters=basic" -TimeoutSec 15
+        $u = $d.$id.data.header_image; if (-not $u) { $u = $d.$id.data.capsule_image }
+        if ($u) { Invoke-WebRequest $u -OutFile $tmp -TimeoutSec 15; $srcJpg = $tmp }
+      } catch {}
+    }
   }
   if (-not $srcJpg) { return '' }
 
