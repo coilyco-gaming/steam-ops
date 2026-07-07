@@ -12,7 +12,13 @@
     writes the (admin-owned) config for us - no elevation / UAC needed.
   * Idempotent: deletes the previous game tiles (keeping the ones in -Keep) and rebuilds,
     so re-run it whenever you install or uninstall a game.
-  * Downloads Steam box art so the Moonlight tiles look nice.
+
+  BOX ART
+    Sunshine only renders **PNG** box art in Moonlight - a .jpg image-path shows a blank
+    tile. So per game we fetch a portrait cover (local Steam cache first, then the Steam
+    CDN, then the landscape header as a last resort) and CONVERT it to PNG via
+    System.Drawing before linking it. Conversions are cached in -ArtDir, so a re-run is
+    fast. -NoArt skips all of this.
 
   CREDENTIALS (never hardcoded - AGENTS.md: no secrets in the repo)
     The Sunshine web-UI password resolves at runtime: env var first, then an interactive
@@ -77,6 +83,38 @@ function Get-InstalledGames($libs) {
   $g
 }
 
+# Fetch a cover for $id and return a PNG path (Sunshine renders PNG only), or '' if none found.
+# Order: cached PNG -> local Steam library_600x900.jpg -> CDN portrait -> CDN landscape header.
+function Get-BoxArtPng($id, $steam, $artDir) {
+  $png = Join-Path $artDir "$id.png"
+  if (Test-Path $png) { return $png }                      # cached from a prior run
+
+  $srcJpg = $null
+  $local  = Join-Path $steam "appcache\librarycache\$id\library_600x900.jpg"
+  if (Test-Path $local) {
+    $srcJpg = $local
+  } else {
+    $tmp = Join-Path $artDir "$id.src"
+    foreach ($u in @(
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/library_600x900_2x.jpg",
+      "https://steamcdn-a.akamaihd.net/steam/apps/$id/library_600x900.jpg",
+      "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/header.jpg"     # last resort: landscape
+    )) { try { Invoke-WebRequest $u -OutFile $tmp -TimeoutSec 15; $srcJpg = $tmp; break } catch {} }
+  }
+  if (-not $srcJpg) { return '' }
+
+  # Convert to PNG. Read via a MemoryStream so the source file isn't locked.
+  try {
+    $bytes = [IO.File]::ReadAllBytes($srcJpg)
+    $ms  = [IO.MemoryStream]::new($bytes)
+    $img = [System.Drawing.Image]::FromStream($ms)
+    $img.Save($png, [System.Drawing.Imaging.ImageFormat]::Png)
+    $img.Dispose(); $ms.Dispose()
+  } catch { return '' }
+  finally { $t = Join-Path $artDir "$id.src"; if (Test-Path $t) { Remove-Item $t -Force -ErrorAction SilentlyContinue } }
+  if (Test-Path $png) { return $png } else { return '' }
+}
+
 # ---- discover installed games ----
 $steam = Get-SteamPath
 $libs  = Get-LibraryFolders $steam
@@ -123,27 +161,21 @@ for ($i = $current.Count - 1; $i -ge 0; $i--) {
   }
 }
 
-# ---- add games (with box art) ----
-if (-not $NoArt) { New-Item -ItemType Directory -Force -Path $ArtDir | Out-Null }
-$added = 0
+# ---- add games (with PNG box art) ----
+if (-not $NoArt) {
+  New-Item -ItemType Directory -Force -Path $ArtDir | Out-Null
+  Add-Type -AssemblyName System.Drawing
+}
+$added = 0; $withArt = 0
 foreach ($g in $games) {
   $id = $g.Key; $nm = $g.Value
   $img = ''
-  if (-not $NoArt) {
-    $dst = Join-Path $ArtDir "$id.jpg"
-    if (-not (Test-Path $dst)) {
-      foreach ($u in @(
-        "https://cdn.cloudflare.steamstatic.com/steam/apps/$id/library_600x900_2x.jpg",
-        "https://steamcdn-a.akamaihd.net/steam/apps/$id/library_600x900.jpg"
-      )) { try { Invoke-WebRequest $u -OutFile $dst -TimeoutSec 15; break } catch {} }
-    }
-    if (Test-Path $dst) { $img = $dst }
-  }
+  if (-not $NoArt) { $img = Get-BoxArtPng $id $steam $ArtDir; if ($img) { $withArt++ } }
   $app = @{ name = $nm; cmd = "steam://rungameid/$id"; index = -1; 'auto-detach' = $true; 'wait-all' = $true }
   if ($img) { $app['image-path'] = $img }
   Invoke-WebRequest "$SunshineHost/api/apps" -Method Post -Body ($app | ConvertTo-Json -Depth 4) -ContentType 'application/json' @api | Out-Null
   $added++
-  Write-Host ("  + {0}" -f $nm)
+  Write-Host ("  {0} {1}" -f $(if ($img) { '+' } else { '-' }), $nm)
 }
 
-Write-Host "`nDone. Added $added game tile(s). Reconnect Moonlight to see them."
+Write-Host "`nDone. Added $added tile(s), $withArt with PNG art. Reconnect Moonlight to see them."
