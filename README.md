@@ -43,6 +43,10 @@ ward sync
 STEAM_WEB_API_KEY='...' STEAM_STEAMID64='7656119...' ward run
 ```
 
+## Host-side ops
+
+`scripts/sunshine-sync-steam.ps1` rebuilds a [Sunshine](https://github.com/LizardByte/Sunshine) streaming host's app list from that host's installed Steam games, so a Moonlight client shows a launchable tile per game. It reads local `appmanifest_*.acf` and pushes to the local Sunshine web API - no Steam Web API key, no elevation. Client-side only; **not** part of the steam-mcp image. See [docs/FEATURES.md](docs/FEATURES.md).
+
 ## Commands
 
 Dev commands are declared in [`.ward/ward.yaml`](.ward/ward.yaml). Run them as `ward <verb>`.

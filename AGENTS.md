@@ -12,6 +12,8 @@ No frontend, no database. `src/steam_mcp/` holds the server and its entrypoint; 
 
 `steam_games_to_yaml.py` and `games.yaml` are the **superseded** clipboard scrape and its output, left in place as data. Do not delete them, and do not extend them - new work goes through the MCP.
 
+`scripts/` holds client-side host ops (e.g. `sunshine-sync-steam.ps1`, which syncs a Sunshine streaming host's app list from its installed Steam games). These target an operator's own machine, are **not** shipped in the image, and are not MCP tools - so the read-only-tool and credential rules below are about the service, not these scripts. Keep them out of `src/`.
+
 ## Repo boundaries
 
 The deploy surface (namespace, Ingress, Authelia client, values.env) lives in [coilyco-bridge/deploy](https://forgejo.coilysiren.me/coilyco-bridge/deploy), not here (source -> deploy layer invariant). This repo builds and publishes the image; the deploy repo rolls it. The server shape is patterned on [coilyco-flight-deck/reddit-mcp](https://forgejo.coilysiren.me/coilyco-flight-deck/reddit-mcp) - keep the two in step where the pattern is shared (credential resolver, port convention, CI).
