@@ -40,7 +40,7 @@ Env is checked first; SSM is the fallback. The secrets never leave the box. Both
 
 ## Deploy
 
-Plain outbound-HTTPS reader (no host namespaces, no hostPath). Image published to the in-cluster registry (`192.168.0.194:30500/steam-mcp:<sha>`) by [`.forgejo/workflows/build-publish.yml`](../.forgejo/workflows/build-publish.yml). Rollout lives in [coilyco-bridge/deploy](https://forgejo.coilysiren.me/coilyco-bridge/deploy) and is out of scope for this repo.
+Plain outbound-HTTPS reader (no host namespaces, no hostPath). The build-publish workflow runs both jobs in the pinned aos dev-base image, then publishes the image to the in-cluster registry (`192.168.0.194:30500/steam-mcp:<sha>`) by [`.forgejo/workflows/build-publish.yml`](../.forgejo/workflows/build-publish.yml). Rollout lives in [coilyco-bridge/deploy](https://forgejo.coilysiren.me/coilyco-bridge/deploy) and is out of scope for this repo.
 
 ## See also
 
