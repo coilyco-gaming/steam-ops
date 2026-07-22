@@ -16,7 +16,9 @@ No frontend, no database. `src/steam_mcp/` holds the server and its entrypoint; 
 
 `steam_games_to_yaml.py` and `games.yaml` are the **superseded** clipboard scrape and its output, left in place as data. Do not delete them, and do not extend them - new work goes through the MCP.
 
-`scripts/` holds client-side host ops (e.g. `sunshine-sync-steam.ps1`, which syncs a Sunshine streaming host's app list from its installed Steam games). These target an operator's own machine, are **not** shipped in the image, and are not MCP tools - so the read-only-tool and credential rules below are about the service, not these scripts. Keep them out of `src/`.
+`scripts/` holds client-side host ops (e.g. `sunshine-sync-steam.ps1`, which syncs a Sunshine streaming host's app list from its installed Steam games, and `display-mode/`, which flips the host's virtual display on and off around a stream). These target an operator's own machine, are **not** shipped in the image, and are not MCP tools - so the read-only-tool and credential rules below are about the service, not these scripts. Keep them out of `src/`.
+
+`scripts/display-mode/` is deployed, not run in place: `Install-DisplayMode.ps1` copies it to `C:\ProgramData\DisplayMode`, which is the path Sunshine's `global_prep_cmd` and the desktop shortcut are wired to. Edit the repo copy and re-run the installer; never patch the deployed copy.
 
 ## Repo boundaries
 

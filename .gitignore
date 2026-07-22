@@ -7,3 +7,6 @@ __pycache__/
 *.egg-info/
 dist/
 build/
+
+# Runtime log written next to the display-mode scripts when they are run in place.
+scripts/display-mode/*.log
