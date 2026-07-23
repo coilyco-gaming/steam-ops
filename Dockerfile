@@ -18,7 +18,7 @@ COPY pyproject.toml README.md /app/
 COPY src /app/src
 
 # Install the project (and its deps) into the system environment. No lockfile:
-# the dependency surface is two libraries, so a resolved install is enough.
+# the dependency surface stays small, so a resolved install is enough.
 RUN uv pip install --system --no-cache .
 
 ENV PORT=9112

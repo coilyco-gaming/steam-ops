@@ -38,6 +38,9 @@ import requests
 from mcp.server.fastmcp import FastMCP
 from mcp.types import Icon
 
+from steam_mcp import storefront
+from steam_mcp.client import ClientProtocolAdapter, persist_refresh_token
+
 API_BASE = "https://api.steampowered.com"
 TIMEOUT = 20
 
@@ -63,6 +66,15 @@ def _steam_icon() -> Icon:
 SECRETS = {
     "api_key": ("STEAM_WEB_API_KEY", "/steam/web-api-key"),
     "steamid64": ("STEAM_STEAMID64", "/steam/steam-id-64"),
+    # Client-protocol credentials are distinct from the Web API key.  The
+    # refresh token is steady state; account credentials are bootstrap only.
+    "client_refresh_token": ("STEAM_CLIENT_REFRESH_TOKEN", "/steam/client-refresh-token"),
+    "client_account_name": ("STEAM_CLIENT_ACCOUNT_NAME", "/steam/client-account-name"),
+    "client_account_password": ("STEAM_CLIENT_ACCOUNT_PASSWORD", "/steam/client-account-password"),
+    "client_guard_shared_secret": (
+        "STEAM_CLIENT_GUARD_SHARED_SECRET",
+        "/steam/client-guard-shared-secret",
+    ),
 }
 
 mcp = FastMCP(
@@ -71,6 +83,10 @@ mcp = FastMCP(
     port=int(os.environ.get("PORT", "9112")),
     icons=[_steam_icon()],
 )
+
+# Cache a rotated token until ExternalSecret refreshes its injected Secret.
+# This value is server-only and never returned.
+_client_refresh_token_cache: str | None = None
 
 
 def _ssm(name: str) -> str | None:
@@ -114,6 +130,12 @@ def _secret(name: str) -> str:
     if not value:
         raise ValueError(f"secret {name!r} is not configured (set {env_var} or SSM {ssm_name})")
     return value
+
+
+def _optional_secret(name: str) -> str | None:
+    """Resolve an optional secret without leaking its value or request URL."""
+    env_var, ssm_name = SECRETS[name]
+    return os.environ.get(env_var) or _ssm(ssm_name)
 
 
 def _api_url(endpoint: str, extra: dict[str, Any]) -> str:
@@ -178,7 +200,12 @@ def _games(endpoint: str, source: str, extra: dict[str, Any]) -> dict[str, Any]:
     payload = _fetch_json(_api_url(endpoint, extra))
     response = (payload or {}).get("response") or {}
     items = [_normalize_game(g) for g in (response.get("games") or [])]
-    return {"source": source, "count": len(items), "items": items}
+    return {
+        "source": source,
+        "provenance": {"plane": "web_api", "interface": "IPlayerService"},
+        "count": len(items),
+        "items": items,
+    }
 
 
 def get_owned_games() -> dict[str, Any]:
@@ -204,11 +231,60 @@ def get_recently_played() -> dict[str, Any]:
     return _games("IPlayerService/GetRecentlyPlayedGames/v1/", "recently_played", {})
 
 
+def get_store_app_details(appid: int, country_code: str = "US") -> dict[str, Any]:
+    """Public metadata for one app via the unauthenticated Steam storefront.
+
+    This is not a Web API or account-client credential path.  It is a fixed,
+    read-only storefront endpoint, intentionally without any account cookie.
+    """
+    return storefront.app_details(appid, country_code)
+
+
+def get_store_search_results(query: str, country_code: str = "US") -> dict[str, Any]:
+    """Public Steam storefront search; returns a small normalized result set."""
+    return storefront.search(query, country_code)
+
+
+def _client_adapter() -> ClientProtocolAdapter:
+    """Create a client adapter lazily so Web API/storefront tools stay isolated."""
+    refresh_ssm_name = SECRETS["client_refresh_token"][1]
+
+    def client_optional_secret(name: str) -> str | None:
+        if name == "client_refresh_token" and _client_refresh_token_cache:
+            return _client_refresh_token_cache
+        return _optional_secret(name)
+
+    def persist(token: str) -> None:
+        global _client_refresh_token_cache
+        persist_refresh_token(refresh_ssm_name, token)
+        _client_refresh_token_cache = token
+
+    return ClientProtocolAdapter(
+        _secret,
+        client_optional_secret,
+        persist,
+    )
+
+
+def get_pics_product_info(appid: int) -> dict[str, Any]:
+    """Authenticated PICS metadata for one app; refresh-token first, read-only."""
+    return _client_adapter().product_info(appid)
+
+
+def get_account_licenses() -> dict[str, Any]:
+    """Account-readable Steam package licenses, excluding access tokens."""
+    return _client_adapter().licenses()
+
+
 # Register each tool without rebinding its name, so the plain callables stay
 # directly invokable (tests call them). Every registered tool is a read - keep it so.
 for _tool in (
     get_owned_games,
     get_recently_played,
+    get_store_app_details,
+    get_store_search_results,
+    get_pics_product_info,
+    get_account_licenses,
 ):
     mcp.tool()(_tool)
 

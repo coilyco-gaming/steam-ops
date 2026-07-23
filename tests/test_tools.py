@@ -12,11 +12,20 @@ from __future__ import annotations
 
 import base64
 import importlib
-from types import ModuleType
+import subprocess
+import sys
+from types import ModuleType, SimpleNamespace
 
 import pytest
 
-_SECRET_ENV = ["STEAM_WEB_API_KEY", "STEAM_STEAMID64"]
+_SECRET_ENV = [
+    "STEAM_WEB_API_KEY",
+    "STEAM_STEAMID64",
+    "STEAM_CLIENT_REFRESH_TOKEN",
+    "STEAM_CLIENT_ACCOUNT_NAME",
+    "STEAM_CLIENT_ACCOUNT_PASSWORD",
+    "STEAM_CLIENT_GUARD_SHARED_SECRET",
+]
 
 
 def _load(monkeypatch: pytest.MonkeyPatch, env: dict[str, str] | None = None) -> ModuleType:
@@ -137,6 +146,175 @@ def test_env_takes_precedence_over_ssm(monkeypatch: pytest.MonkeyPatch) -> None:
     server.get_owned_games()
     assert "key=test-key" in seen["url"]
     assert "steamid=7656119800000000" in seen["url"]
+
+
+def test_storefront_tools_are_unauthenticated_and_provenanced(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    server = _load(monkeypatch)
+    seen: list[tuple[str, dict[str, object]]] = []
+
+    def fake_get(path: str, params: dict[str, object]) -> dict:
+        seen.append((path, params))
+        if path == "/api/appdetails":
+            return {
+                "440": {
+                    "success": True,
+                    "data": {
+                        "steam_appid": 440,
+                        "name": "Team Fortress 2",
+                        "type": "game",
+                        "is_free": True,
+                        "genres": [{"description": "Action"}],
+                        "categories": [{"description": "Multi-player"}],
+                    },
+                }
+            }
+        return {"items": [{"id": 440, "name": "Team Fortress 2", "type": "app"}]}
+
+    monkeypatch.setattr(server.storefront, "_get", fake_get)
+    details = server.get_store_app_details(440)
+    search = server.get_store_search_results("team fortress")
+    assert details["provenance"]["plane"] == "storefront"
+    assert details["item"]["genres"] == ["Action"]
+    assert search["count"] == 1
+    assert all("key" not in params and "steamid" not in params for _, params in seen)
+
+
+def test_storefront_failure_and_input_validation(monkeypatch: pytest.MonkeyPatch) -> None:
+    server = _load(monkeypatch)
+    monkeypatch.setattr(server.storefront, "_get", lambda path, params: None)
+    assert server.get_store_app_details(440)["item"] is None
+    with pytest.raises(ValueError, match="positive"):
+        server.get_store_app_details(0)
+    with pytest.raises(ValueError, match="empty"):
+        server.get_store_search_results(" ")
+
+
+class _FakeSteamClient:
+    def __init__(self) -> None:
+        self.login_calls: list[tuple[tuple[object, ...], dict[str, object]]] = []
+        self.refresh_token = "rotated-token"
+        self.licenses = [
+            SimpleNamespace(id=123, created_at=None, payment_method=SimpleNamespace(value="store"))
+        ]
+
+    async def __aenter__(self) -> _FakeSteamClient:
+        return self
+
+    async def __aexit__(self, *args: object) -> None:
+        return None
+
+    async def login(self, *args: object, **kwargs: object) -> None:
+        self.login_calls.append((args, kwargs))
+
+    async def fetch_product_info(self, **kwargs: object) -> list[dict[str, object]]:
+        assert kwargs == {"apps": [440]}
+        return [{"common": {"name": "Team Fortress 2", "type": "game", "oslist": "windows"}}]
+
+
+def test_client_uses_refresh_token_rotates_and_never_returns_it(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from steam_mcp.client import ClientProtocolAdapter
+
+    fake_client = _FakeSteamClient()
+    persisted: list[str] = []
+    adapter = ClientProtocolAdapter(
+        lambda name: pytest.fail(f"unexpected required secret {name}"),
+        lambda name: "old-token" if name == "client_refresh_token" else None,
+        persisted.append,
+    )
+    monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
+    got = adapter.product_info(440)
+    assert fake_client.login_calls == [((), {"refresh_token": "old-token"})]
+    assert persisted == ["rotated-token"]
+    assert got["provenance"]["plane"] == "client_pics"
+    assert got["item"]["name"] == "Team Fortress 2"
+    assert "old-token" not in repr(got)
+    assert "rotated-token" not in repr(got)
+
+
+def test_client_bootstraps_only_without_refresh_token(monkeypatch: pytest.MonkeyPatch) -> None:
+    from steam_mcp.client import ClientProtocolAdapter
+
+    fake_client = _FakeSteamClient()
+    credentials = {
+        "client_account_name": "account",
+        "client_account_password": "password",
+    }
+    adapter = ClientProtocolAdapter(credentials.__getitem__, lambda name: None, lambda token: None)
+    monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
+    got = adapter.licenses()
+    assert fake_client.login_calls == [(("account", "password"), {"shared_secret": None})]
+    assert got["items"] == [{"packageid": 123, "created_at": None, "payment_method": "store"}]
+
+
+def test_client_replaces_an_invalid_refresh_token_with_bootstrap(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from steam_mcp.client import ClientProtocolAdapter
+
+    class ExpiringClient(_FakeSteamClient):
+        async def login(self, *args: object, **kwargs: object) -> None:
+            self.login_calls.append((args, kwargs))
+            if kwargs.get("refresh_token"):
+                raise RuntimeError("expired token")
+
+    fake_client = ExpiringClient()
+    credentials = {
+        "client_account_name": "account",
+        "client_account_password": "password",
+    }
+    persisted: list[str] = []
+    adapter = ClientProtocolAdapter(
+        credentials.__getitem__,
+        lambda name: "expired-token" if name == "client_refresh_token" else None,
+        persisted.append,
+    )
+    monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
+    adapter.licenses()
+    assert fake_client.login_calls == [
+        ((), {"refresh_token": "expired-token"}),
+        (("account", "password"), {"shared_secret": None}),
+    ]
+    assert persisted == ["rotated-token"]
+
+
+def test_client_failure_does_not_surface_credential_material(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from steam_mcp.client import ClientProtocolAdapter
+
+    class RejectingClient(_FakeSteamClient):
+        async def login(self, *args: object, **kwargs: object) -> None:
+            raise RuntimeError("password=super-secret")
+
+    adapter = ClientProtocolAdapter(
+        lambda name: "super-secret",
+        lambda name: "super-secret",
+        lambda x: None,
+    )
+    monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=RejectingClient))
+    with pytest.raises(RuntimeError) as exc_info:
+        adapter.licenses()
+    assert "super-secret" not in str(exc_info.value)
+
+
+def test_refresh_token_persistence_keeps_value_out_of_argv(monkeypatch: pytest.MonkeyPatch) -> None:
+    from steam_mcp.client import persist_refresh_token
+
+    captured: dict[str, object] = {}
+
+    def fake_run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        captured["args"] = args
+        captured["input"] = kwargs["input"]
+        return subprocess.CompletedProcess(args, 0)
+
+    monkeypatch.setattr("steam_mcp.client.subprocess.run", fake_run)
+    persist_refresh_token("/steam/client-refresh-token", "rotated-token")
+    assert "rotated-token" not in repr(captured["args"])
+    assert "rotated-token" in str(captured["input"])
 
 
 def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:

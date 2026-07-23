@@ -1,8 +1,10 @@
 # steam-ops / steam-mcp
 
-A read-only MCP that exposes Kai's Steam library over streamable-HTTP, so an agent (or the claude.ai hosted connector) can read owned-games and recently-played straight from the Steam Web API - no scraping, no clipboard.
+A read-only MCP that exposes Kai's Steam library over streamable-HTTP. It reads
+Steam through three deliberately separate data-access planes: the Web API,
+public storefront endpoints, and an authenticated Steam client/PICS session.
 
-It is the second pure-read clone of the [coilyco-bridge/deploy#30](https://forgejo.coilysiren.me/coilyco-bridge/deploy) personal-MCP fleet, and its second **credential shape**: a Steam Web API key over `IPlayerService`, next to [reddit-mcp](https://forgejo.coilysiren.me/coilyco-flight-deck/reddit-mcp)'s feed URL - proving the DRY deploy substrate generalizes across shapes.
+It is a pure-read member of the [coilyco-bridge/deploy#30](https://forgejo.coilysiren.me/coilyco-bridge/deploy) personal-MCP fleet. Its Web API, storefront, and client/PICS adapters remain isolated so the distinct Steam access planes do not blur into one credential shape.
 
 > **The repo is `steam-ops`, but the image and service are `steam-mcp`.** CI publishes `192.168.0.194:30500/steam-mcp:<sha>`.
 
@@ -15,18 +17,64 @@ It is the second pure-read clone of the [coilyco-bridge/deploy#30](https://forge
 - **get_owned_games** - full owned library via `IPlayerService/GetOwnedGames` (`include_appinfo=1&include_played_free_games=1`): appid, name, playtime, last-played.
 - **get_recently_played** - last-two-weeks activity via `IPlayerService/GetRecentlyPlayedGames`.
 
-Each returns `{source, count, items}` with normalized records (`appid`, `name`, `playtime_forever_minutes`, `playtime_forever_hours`, `playtime_2weeks_minutes`, `last_played_unix`).
+Web API tools retain their `{source, count, items}` response shape, with an
+additive `provenance` object identifying the `web_api` / `IPlayerService` plane.
+
+- **get_store_app_details** — public, unauthenticated storefront metadata for a
+  single known app id.
+- **get_store_search_results** — public, unauthenticated storefront search with a
+  normalized small result set.
+- **get_pics_product_info** — authenticated Steam client-protocol/PICS metadata
+  for one app id.
+- **get_account_licenses** — authenticated account package-license metadata;
+  access tokens are deliberately excluded.
+
+Every response carries `source` and `provenance.plane`: `web_api`,
+`storefront`, or `client_pics`. There is no arbitrary-URL/request tool.
 
 ## Read-only by construction
 
 A Web API key over `IPlayerService` **reads** a library - it cannot post, trade, or refund (deploy#30). There is no write tool, and no path that both ingests untrusted content and can act. Like reddit-mcp, it is a **plain outbound-HTTPS reader**: no `hostPID`, `hostNetwork`, or `hostPath`. The auth overlay is added in the deploy repo, not here (deploy#28: the source stays unchanged by the overlay).
 
-## Credential custody
+## Access and credential model
 
-The key and steamid64 are private and **never** live in the image, the repo, or a committed config. Each resolves at runtime, server-side: an env var first, then SSM SecureString via `aws ssm get-parameter --with-decryption`.
+These are three access planes, not interchangeable credentials:
+
+1. **Web API** — `IPlayerService` requires a Web API key plus SteamID64.
+2. **Storefront/community HTTP** — the fixed app-details and search endpoints
+   are intentionally unauthenticated. The service sends no Steam account cookie
+   or Web API key to them.
+3. **Steam client protocol/PICS** — `steamio` (steam.py) logs in as the account
+   using a persisted refresh token. It reads PICS and account licenses only.
+
+Authelia protects who can reach this MCP; it is transport access control, not a
+Steam data source.
+
+The Web API key and SteamID64 are private and **never** live in the image, the
+repo, or a committed config. Each resolves at runtime, server-side: an env var
+first and then SSM SecureString via `aws ssm get-parameter --with-decryption`.
 
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString)
 - `STEAM_STEAMID64` / SSM `/steam/steam-id-64`
+
+The client/PICS adapter resolves these independently, env first then SSM:
+
+- `STEAM_CLIENT_REFRESH_TOKEN` / `/steam/client-refresh-token` — steady-state
+  session credential. When Steam rotates it, the adapter writes the replacement
+  SecureString back to that same parameter without putting its value in process
+  arguments, logs, exceptions, or MCP results.
+- `STEAM_CLIENT_ACCOUNT_NAME` / `/steam/client-account-name` and
+  `STEAM_CLIENT_ACCOUNT_PASSWORD` / `/steam/client-account-password` — used only
+  when the refresh-token parameter is absent or invalid, never on each request.
+- `STEAM_CLIENT_GUARD_SHARED_SECRET` / `/steam/client-guard-shared-secret` —
+  optional bootstrap-only Steam Guard secret. It is never returned.
+
+> **Steam Guard bootstrap:** a non-interactive server cannot safely prompt for a
+> code. Before the first rollout, Kai must seed `/steam/client-refresh-token`
+> through a controlled account login. The deployed workload receives only that
+> refresh token; bootstrap credentials and Guard material never enter its
+> ExternalSecret. Do not put a password, refresh token, shared secret, or
+> one-time code in an issue, shell history, committed file, test, or tool call.
 
 Env-first lets the deploy inject via an ExternalSecret without granting the pod `ssm:GetParameter`; the SSM fallback mirrors reddit-mcp's resolver. The secrets never leave the box.
 

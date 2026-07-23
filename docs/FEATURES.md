@@ -6,8 +6,19 @@ Living inventory of what ships from this repo. One image, one process: a FastMCP
 
 - **get_owned_games** - Kai's full owned Steam library via `IPlayerService/GetOwnedGames` (`include_appinfo=1&include_played_free_games=1`). The durable replacement for the superseded clipboard scrape's fields.
 - **get_recently_played** - games played in the last two weeks via `IPlayerService/GetRecentlyPlayedGames`, a recent-activity signal.
+- **get_store_app_details** and **get_store_search_results** - fixed, normalized public
+  storefront app metadata and search. These calls are intentionally
+  unauthenticated; no Web API key or account cookie travels to the storefront.
+- **get_pics_product_info** and **get_account_licenses** - authenticated,
+  read-only Steam client-protocol/PICS metadata and account license surfaces.
+  Package access tokens are not included in tool results.
 
-Each returns `{source, count, items}`; `items` are normalized game records: `appid`, `name`, `playtime_forever_minutes`, `playtime_forever_hours`, `playtime_2weeks_minutes`, `last_played_unix` (None when Steam reports no last-play or the profile is private).
+Existing Web API responses retain `{source, count, items}`; every plane adds
+explicit `provenance.plane` (`web_api`, `storefront`, or `client_pics`). Web API
+items remain normalized game records: `appid`, `name`,
+`playtime_forever_minutes`, `playtime_forever_hours`,
+`playtime_2weeks_minutes`, `last_played_unix` (None when Steam reports no
+last-play or the profile is private).
 
 ## Server metadata
 
@@ -16,7 +27,12 @@ Each returns `{source, count, items}`; `items` are normalized game records: `app
 ## Security envelope
 
 - **Read-only by construction** - a Steam Web API key over `IPlayerService` reads a library; it cannot post, trade, refund, or act on the account (deploy#30). No write tool exists, and no tool both ingests untrusted content and can act.
-- **Credentials never in the image** - the key and steamid64 resolve at runtime, server-side: env var first, then SSM SecureString via `aws ssm get-parameter --with-decryption`. Never baked into the image, repo, or committed config; the key rides in the request query string, so request URLs are never logged or returned to callers. An unconfigured secret fails loud (`ValueError`) rather than making a keyless request.
+- **Credentials never in the image** - Web API credentials resolve env-first,
+  then from SSM. Client/PICS has its own env-first refresh token; account name,
+  password, and optional Steam Guard shared secret are bootstrap-only. A rotated
+  refresh token is written back to its SSM SecureString without entering command
+  arguments. Tokens, passwords, Guard material, and request URLs never enter
+  logs, exceptions, tool results, or tracked files.
 - **Network-gated reach** - the endpoint sits behind the deploy's auth/network overlay (Authelia/Traefik, added in the deploy repo), not in this source.
 
 ## Configuration (env)
@@ -24,8 +40,17 @@ Each returns `{source, count, items}`; `items` are normalized game records: `app
 - `PORT` (default 9112), `HOST` (default 0.0.0.0).
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString).
 - `STEAM_STEAMID64` / SSM `/steam/steam-id-64`.
+- `STEAM_CLIENT_REFRESH_TOKEN` / SSM `/steam/client-refresh-token`.
+- Bootstrap only: `STEAM_CLIENT_ACCOUNT_NAME` / `/steam/client-account-name`,
+  `STEAM_CLIENT_ACCOUNT_PASSWORD` / `/steam/client-account-password`, and
+  optional `STEAM_CLIENT_GUARD_SHARED_SECRET` /
+  `/steam/client-guard-shared-secret`.
 
-Env is checked first; SSM is the fallback. The secrets never leave the box. Both SSM params **already exist** (used by steam-games-cli and the website /now) - this MCP reuses them, it does not introduce them.
+Env is checked first; SSM is the fallback. The refresh token is the normal
+client credential. The deployed ExternalSecret injects only that token; account
+credentials are used only by a controlled bootstrap process. If Steam Guard
+needs a manual code, Kai seeds the refresh-token SSM parameter in that one-time
+login rather than typing a code into a live MCP request.
 
 ## Ops helpers (client-side)
 
