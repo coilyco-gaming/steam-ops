@@ -6,7 +6,7 @@
 #
 # Per-step notes for the publish job (the code-comments YAML rule keeps rationale
 # up here in the header rather than inline beside the steps):
-# - Run both jobs in the pinned aos dev-base image. It already ships uv/Python
+# - Run both jobs in the moving :release aos dev-base image. It already ships uv/Python
 #   and the Docker CLI, so CI no longer needs ad hoc bootstrap installs.
 # - Resolve docker host: the DinD sidecar shares the runner pod's netns on :2375,
 #   but the job container sits on a separate per-workflow bridge - so probe
@@ -24,7 +24,7 @@ on:
 jobs:
   test:
     runs-on: docker
-    container: forgejo.coilysiren.me/coilyco-flight-deck/agentic-os:v0.255.0
+    container: forgejo.coilysiren.me/coilyco-flight-deck/agentic-os:release
     steps:
       - uses: actions/checkout@v4
       - run: ward exec test
@@ -92,7 +92,7 @@ jobs:
           PY
   publish:
     runs-on: docker
-    container: forgejo.coilysiren.me/coilyco-flight-deck/agentic-os:v0.255.0
+    container: forgejo.coilysiren.me/coilyco-flight-deck/agentic-os:release
     needs: [test]
     steps:
       - uses: actions/checkout@v4
