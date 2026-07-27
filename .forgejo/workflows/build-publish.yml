@@ -1,19 +1,7 @@
-# Tests, then builds and publishes the steam-mcp image to the in-cluster
-# registry on every push to main. No deploy stage here: rollout is driven from
-# coilyco-bridge/deploy per the layer invariant (source -> deploy). Mirrors
-# coilyco-flight-deck/reddit-mcp's build-publish. The repo is steam-ops, but the
-# image/service is steam-mcp.
-#
-# Per-step notes for the publish job (the code-comments YAML rule keeps rationale
-# up here in the header rather than inline beside the steps):
-# - Run both jobs in the moving :release aos dev-base image. It already ships uv/Python
-#   and the Docker CLI, so CI no longer needs ad hoc bootstrap installs.
-# - Resolve docker host: the DinD sidecar shares the runner pod's netns on :2375,
-#   but the job container sits on a separate per-workflow bridge - so probe
-#   candidate hosts and pin the first that answers. Same shape as reddit-mcp.
-# - Build and push: to the in-cluster registry. The DinD sidecar carries
-#   --insecure-registry=192.168.0.194:30500, so the plain-http push round-trips.
-#   Legacy builder (no buildx plugin in the static CLI).
+# Tests, then publishes the steam-mcp image to Forgejo OCI on every push to
+# main. No deploy stage here: rollout is driven from
+# coilyco-bridge/deploy/services/steam-mcp per the layer invariant
+# (source -> deploy). The repo is steam-ops, but the image is steam-mcp.
 name: build-publish
 
 on:
@@ -45,33 +33,13 @@ jobs:
           API_BASE: https://api.telegram.org
         run: "python3 -c 'exec(\"import os\\nimport sys\\nimport urllib.error\\nimport urllib.parse\\nimport urllib.request\\n\\ndef build_message():\\n    return \\\"\\\\n\\\".join([\\n        \\\"CI failed on main\\\",\\n        f\\\"repo: {os.environ['\"'\"'REPO'\"'\"']}\\\",\\n        f\\\"workflow: {os.environ['\"'\"'WORKFLOW'\"'\"']}\\\",\\n        f\\\"job: {os.environ['\"'\"'JOB'\"'\"']}\\\",\\n        f\\\"ref: {os.environ['\"'\"'REF'\"'\"']}\\\",\\n        f\\\"sha: {os.environ['\"'\"'SHA'\"'\"']}\\\",\\n        f\\\"run: {os.environ['\"'\"'RUN_URL'\"'\"']}\\\",\\n    ])\\n\\ndef main():\\n    bot_token = os.environ.get(\\\"BOT_TOKEN\\\", \\\"\\\")\\n    chat_id = os.environ.get(\\\"CHAT_ID\\\", \\\"\\\")\\n    if not bot_token or not chat_id:\\n        print(\\\"telegram alert missing required secret\\\", file=sys.stderr)\\n        return 2\\n    proxy_url = os.environ.get(\\\"FORGEJO_EGRESS_PROXY\\\", \\\"\\\").strip()\\n    payload = urllib.parse.urlencode(\\n        {\\n            \\\"chat_id\\\": chat_id,\\n            \\\"text\\\": build_message(),\\n            \\\"disable_web_page_preview\\\": \\\"true\\\",\\n        }\\n    ).encode(\\\"utf-8\\\")\\n    api_base = os.environ.get(\\\"API_BASE\\\", \\\"https://api.telegram.org\\\").rstrip(\\\"/\\\")\\n    request = urllib.request.Request(\\n        f\\\"{api_base}/bot{bot_token}/sendMessage\\\",\\n        data=payload,\\n        method=\\\"POST\\\",\\n    )\\n    opener = urllib.request.build_opener(\\n        urllib.request.ProxyHandler({\\\"https\\\": proxy_url})\\n        if proxy_url\\n        else urllib.request.ProxyHandler()\\n    )\\n    try:\\n        with opener.open(request, timeout=15) as response:\\n            response.read()\\n    except urllib.error.URLError as exc:\\n        print(f\\\"telegram alert failed ({type(exc).__name__})\\\", file=sys.stderr)\\n        return 1\\n    return 0\\n\\nraise SystemExit(main())\\n\")'"
   publish:
-    runs-on: docker
-    container: forgejo.coilysiren.me/coilyco-flight-deck/agentic-os:release
+    runs-on: deploy
     needs: [test]
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v4
-      - name: Resolve docker host
-        run: |
-          set -euo pipefail
-          gw=$(node -e "const fs=require('fs');const l=(fs.readFileSync('/proc/net/route','utf8').split('\n').find(x=>x.split('\t')[1]==='00000000'))||'';const h=l.split(/\s+/)[2]||'';if(h){console.log(h.match(/../g).reverse().map(x=>parseInt(x,16)).join('.'))}" || true)
-          for h in "tcp://${gw}:2375" "${DOCKER_HOST:-}" tcp://localhost:2375 unix:///var/run/docker.sock; do
-            [ -z "$h" ] && continue
-            [ "$h" = "tcp://:2375" ] && continue
-            if docker -H "$h" info >/dev/null 2>&1; then
-              echo "docker daemon reachable at $h"
-              echo "DOCKER_HOST=$h" >> "$GITHUB_ENV"
-              exit 0
-            fi
-            echo "no docker daemon at $h"
-          done
-          echo "no reachable docker daemon" >&2
-          exit 1
-      - name: Build and push
-        run: |
-          set -euo pipefail
-          IMAGE=192.168.0.194:30500/steam-mcp:${{ github.sha }}
-          docker build -t "$IMAGE" .
-          docker push "$IMAGE"
+      - name: Publish immutable image
+        run: bash scripts/publish-image.sh
       - name: Alert Telegram on main failure
         if: ${{ failure() && github.ref == 'refs/heads/main' }}
         continue-on-error: true

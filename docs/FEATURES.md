@@ -65,7 +65,14 @@ login rather than typing a code into a live MCP request.
 
 ## Deploy
 
-Plain outbound-HTTPS reader (no host namespaces, no hostPath). The build-publish workflow runs both jobs in the moving :release aos dev-base image, then publishes the image to the in-cluster registry (`192.168.0.194:30500/steam-mcp:<sha>`) by [`.forgejo/workflows/build-publish.yml`](../.forgejo/workflows/build-publish.yml). Rollout lives in [coilyco-bridge/deploy](https://forgejo.coilysiren.me/coilyco-bridge/deploy) and is out of scope for this repo.
+Plain outbound-HTTPS reader (no host namespaces, no hostPath). Every push to
+canonical `main` publishes and verifies the private single-architecture image
+as `forgejo.coilysiren.me/coilyco-gaming/steam-mcp:<full-source-sha>`.
+[The source workflow](../.forgejo/workflows/build-publish.yml) owns publishing.
+Rollout lives in
+[coilyco-bridge/deploy](https://forgejo.coilysiren.me/coilyco-bridge/deploy),
+which consumes the exact immutable reference with a read-only package
+credential.
 
 ## See also
 

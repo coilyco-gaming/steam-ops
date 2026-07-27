@@ -6,7 +6,10 @@ public storefront endpoints, and an authenticated Steam client/PICS session.
 
 It is a pure-read member of the [coilyco-bridge/deploy#30](https://forgejo.coilysiren.me/coilyco-bridge/deploy) personal-MCP fleet. Its Web API, storefront, and client/PICS adapters remain isolated so the distinct Steam access planes do not blur into one credential shape.
 
-> **The repo is `steam-ops`, but the image and service are `steam-mcp`.** CI publishes `192.168.0.194:30500/steam-mcp:<sha>`.
+> **The repo is `steam-ops`, but the image and service are `steam-mcp`.** CI
+> publishes the private image as
+> `forgejo.coilysiren.me/coilyco-gaming/steam-mcp:<full-source-sha>` and verifies
+> the remote manifest.
 
 ## Superseded: the clipboard scrape
 
