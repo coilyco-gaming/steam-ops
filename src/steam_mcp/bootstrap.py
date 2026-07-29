@@ -115,9 +115,10 @@ def main() -> None:
     """Perform one controlled login and persist only the issued refresh token."""
     try:
         asyncio.run(_bootstrap())
-    except (ImportError, OSError, RuntimeError, ValueError):
+    except (ImportError, OSError, RuntimeError, ValueError) as exc:
         raise SystemExit(
-            "Steam client bootstrap failed. No credential value was printed or persisted."
+            f"Steam client bootstrap failed ({type(exc).__name__}). "
+            "No credential value was printed or persisted."
         ) from None
     print(f"Steam client refresh token stored in {REFRESH_TOKEN_PARAMETER}.")
 

@@ -337,6 +337,23 @@ def test_bootstrap_persistence_uses_aosguard_file_source_and_removes_file(
     assert not Path(str(captured["token_path"])).exists()
 
 
+def test_bootstrap_failure_reports_only_exception_class(
+    monkeypatch: pytest.MonkeyPatch,
+    capsys: pytest.CaptureFixture[str],
+) -> None:
+    from steam_mcp import bootstrap
+
+    async def reject() -> None:
+        raise RuntimeError("password=credential-material")
+
+    monkeypatch.setattr(bootstrap, "_bootstrap", reject)
+    with pytest.raises(SystemExit) as exc_info:
+        bootstrap.main()
+    assert "RuntimeError" in str(exc_info.value)
+    assert "credential-material" not in str(exc_info.value)
+    assert "credential-material" not in capsys.readouterr().err
+
+
 def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:
     """The server's `initialize` response advertises the Steam brand icon.
 
