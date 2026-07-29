@@ -3,10 +3,15 @@ name = "steam-mcp"
 version = "0.1.0"
 description = "Read-only MCP exposing Kai's Steam library (owned games, recently played) over streamable-HTTP, backed by the Steam Web API."
 readme = "README.md"
-requires-python = ">=3.13"
+# steamio 1.1.3's Python 3.14 branch imports compression.zstandard, which
+# Python 3.14 does not provide. Keep bootstrap and production on Python 3.13.
+requires-python = ">=3.13,<3.14"
 license = { text = "MIT" }
 authors = [{ name = "Kai Siren" }]
 dependencies = [
+  # steamio 1.1.3 imports AsyncStreamReaderMixin from aiohttp.streams.
+  # aiohttp 3.14 removed that private compatibility surface.
+  "aiohttp<3.14",
   # steamio's current client-protocol release pins this pre-release transport.
   # Declaring it directly permits uv to resolve the package's intentional pin.
   "betterproto==2.0.0b6",

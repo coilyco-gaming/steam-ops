@@ -68,6 +68,11 @@ _RECENT_PAYLOAD = {
 }
 
 
+def test_steamio_runtime_imports_are_compatible() -> None:
+    """Exercise the lazy import that the interactive bootstrap requires."""
+    importlib.import_module("steam.manifest")
+
+
 def test_owned_games_normalizes(monkeypatch: pytest.MonkeyPatch) -> None:
     server = _load(monkeypatch, _creds())
     monkeypatch.setattr(server, "_fetch_json", lambda url: _OWNED_PAYLOAD)
