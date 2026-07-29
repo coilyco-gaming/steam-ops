@@ -15,7 +15,9 @@ dependencies = [
   # steamio's current client-protocol release pins this pre-release transport.
   # Declaring it directly permits uv to resolve the package's intentional pin.
   "betterproto==2.0.0b6",
-  "mcp>=1.14.0",
+  # The server uses the official SDK's v1 FastMCP API. MCP v2 removes that
+  # module, so keep both local and unpinned container installs on v1.
+  "mcp>=1.27,<2",
   "requests>=2.32.0",
   "steamio>=1.1.3",
 ]

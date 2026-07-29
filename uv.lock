@@ -1008,7 +1008,7 @@ dev = [
 requires-dist = [
     { name = "aiohttp", specifier = "<3.14" },
     { name = "betterproto", specifier = "==2.0.0b6" },
-    { name = "mcp", specifier = ">=1.14.0" },
+    { name = "mcp", specifier = ">=1.27,<2" },
     { name = "requests", specifier = ">=2.32.0" },
     { name = "steamio", specifier = ">=1.1.3" },
 ]
