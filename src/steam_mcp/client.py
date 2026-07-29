@@ -62,7 +62,7 @@ class ClientProtocolAdapter:
                 "refresh token or perform the documented manual bootstrap."
             ) from None
 
-    def product_info(self, appid: int) -> dict[str, Any]:
+    async def product_info(self, appid: int) -> dict[str, Any]:
         """Read PICS product metadata for a single positive application id."""
         if appid <= 0:
             raise ValueError("appid must be a positive Steam application id")
@@ -76,9 +76,9 @@ class ClientProtocolAdapter:
                 "item": _product_item(appid, info),
             }
 
-        return asyncio.run(self._with_client(operation))
+        return await self._with_client(operation)
 
-    def licenses(self) -> dict[str, Any]:
+    async def licenses(self) -> dict[str, Any]:
         """Read account package-license metadata without exposing access tokens."""
 
         async def operation(client: Any) -> dict[str, Any]:
@@ -97,7 +97,7 @@ class ClientProtocolAdapter:
                 "items": items,
             }
 
-        return asyncio.run(self._with_client(operation))
+        return await self._with_client(operation)
 
 
 async def run_authenticated_session(

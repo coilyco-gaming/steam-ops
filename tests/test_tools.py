@@ -243,7 +243,7 @@ def test_client_uses_refresh_token_rotates_and_never_returns_it(
         persisted.append,
     )
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
-    got = adapter.product_info(440)
+    got = asyncio.run(adapter.product_info(440))
     assert fake_client.login_calls == [((), {"refresh_token": "old-token"})]
     assert persisted == ["rotated-token"]
     assert got["provenance"]["plane"] == "client_pics"
@@ -318,7 +318,7 @@ def test_client_requires_operator_bootstrap_without_refresh_token(
     adapter = ClientProtocolAdapter(lambda name: None, lambda token: None)
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
     with pytest.raises(RuntimeError, match="manual bootstrap"):
-        adapter.licenses()
+        asyncio.run(adapter.licenses())
     assert fake_client.login_calls == []
 
 
@@ -340,7 +340,7 @@ def test_client_rejects_an_invalid_refresh_token_without_leaking_it(
     )
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
     with pytest.raises(RuntimeError) as exc_info:
-        adapter.licenses()
+        asyncio.run(adapter.licenses())
     assert fake_client.login_calls == [((), {"refresh_token": "expired-token"})]
     assert "expired-token" not in str(exc_info.value)
 
@@ -360,7 +360,7 @@ def test_client_failure_does_not_surface_credential_material(
     )
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=RejectingClient))
     with pytest.raises(RuntimeError) as exc_info:
-        adapter.licenses()
+        asyncio.run(adapter.licenses())
     assert "super-secret" not in str(exc_info.value)
 
 

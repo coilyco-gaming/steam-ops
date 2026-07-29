@@ -265,14 +265,14 @@ def _client_adapter() -> ClientProtocolAdapter:
     )
 
 
-def get_pics_product_info(appid: int) -> dict[str, Any]:
+async def get_pics_product_info(appid: int) -> dict[str, Any]:
     """Authenticated PICS metadata for one app; refresh-token first, read-only."""
-    return _client_adapter().product_info(appid)
+    return await _client_adapter().product_info(appid)
 
 
-def get_account_licenses() -> dict[str, Any]:
+async def get_account_licenses() -> dict[str, Any]:
     """Account-readable Steam package licenses, excluding access tokens."""
-    return _client_adapter().licenses()
+    return await _client_adapter().licenses()
 
 
 # Register each tool without rebinding its name, so the plain callables stay
