@@ -58,8 +58,12 @@ def _steam_icon() -> Icon:
     """
     svg = files("steam_mcp.assets").joinpath("steam-icon.svg").read_bytes()
     encoded = base64.b64encode(svg).decode("ascii")
-    return Icon(
-        src=f"data:image/svg+xml;base64,{encoded}", mime_type="image/svg+xml", sizes=["any"]
+    return Icon.model_validate(
+        {
+            "src": f"data:image/svg+xml;base64,{encoded}",
+            "mimeType": "image/svg+xml",
+            "sizes": ["any"],
+        }
     )
 
 
