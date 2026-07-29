@@ -354,6 +354,23 @@ def test_bootstrap_failure_reports_only_exception_class(
     assert "credential-material" not in capsys.readouterr().err
 
 
+def test_bootstrap_import_failure_reports_only_module_name(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from steam_mcp import bootstrap
+
+    async def reject() -> None:
+        error = ImportError("credential-material")
+        error.name = "safe_dependency"
+        raise error
+
+    monkeypatch.setattr(bootstrap, "_bootstrap", reject)
+    with pytest.raises(SystemExit) as exc_info:
+        bootstrap.main()
+    assert "ImportError: safe_dependency" in str(exc_info.value)
+    assert "credential-material" not in str(exc_info.value)
+
+
 def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:
     """The server's `initialize` response advertises the Steam brand icon.
 

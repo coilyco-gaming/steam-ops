@@ -116,8 +116,11 @@ def main() -> None:
     try:
         asyncio.run(_bootstrap())
     except (ImportError, OSError, RuntimeError, ValueError) as exc:
+        failure = type(exc).__name__
+        if isinstance(exc, ImportError) and exc.name:
+            failure = f"{failure}: {exc.name}"
         raise SystemExit(
-            f"Steam client bootstrap failed ({type(exc).__name__}). "
+            f"Steam client bootstrap failed ({failure}). "
             "No credential value was printed or persisted."
         ) from None
     print(f"Steam client refresh token stored in {REFRESH_TOKEN_PARAMETER}.")
