@@ -32,7 +32,13 @@ class ClientProtocolAdapter:
         self._optional_secret = optional_secret
         self._persist_refresh_token = persist_refresh_token
 
-    async def _login(self, client: Any, operation: Callable[[Any], Any]) -> Any:
+    async def _login(
+        self,
+        client: Any,
+        operation: Callable[[Any], Any],
+        *,
+        readiness: Literal["login", "licenses"],
+    ) -> Any:
         refresh_token = self._optional_secret("client_refresh_token")
         if not refresh_token:
             raise ValueError(
@@ -43,6 +49,7 @@ class ClientProtocolAdapter:
             client,
             operation,
             ready_timeout=LOGIN_READY_TIMEOUT,
+            readiness=readiness,
             refresh_token=refresh_token,
         )
         rotated_token = getattr(client, "refresh_token", None)
@@ -50,12 +57,17 @@ class ClientProtocolAdapter:
             self._persist_refresh_token(rotated_token)
         return result
 
-    async def _with_client(self, operation: Callable[[Any], Any]) -> Any:
+    async def _with_client(
+        self,
+        operation: Callable[[Any], Any],
+        *,
+        readiness: Literal["login", "licenses"],
+    ) -> Any:
         try:
             import steam
 
             async with steam.Client() as client:
-                return await self._login(client, operation)
+                return await self._login(client, operation, readiness=readiness)
         except (ImportError, OSError, RuntimeError, TimeoutError, ValueError):
             raise RuntimeError(
                 "Steam client authentication or PICS request failed; verify the persisted "
@@ -76,7 +88,7 @@ class ClientProtocolAdapter:
                 "item": _product_item(appid, info),
             }
 
-        return await self._with_client(operation)
+        return await self._with_client(operation, readiness="login")
 
     async def licenses(self) -> dict[str, Any]:
         """Read account package-license metadata without exposing access tokens."""
@@ -97,7 +109,7 @@ class ClientProtocolAdapter:
                 "items": items,
             }
 
-        return await self._with_client(operation)
+        return await self._with_client(operation, readiness="licenses")
 
 
 async def run_authenticated_session(
@@ -105,7 +117,7 @@ async def run_authenticated_session(
     operation: Callable[[Any], Any],
     *,
     ready_timeout: float | None,
-    readiness: Literal["login", "ready", "refresh_token"] = "ready",
+    readiness: Literal["licenses", "login", "ready", "refresh_token"] = "ready",
     **login_kwargs: Any,
 ) -> Any:
     """Run one operation after the requested steamio milestone, then close.
@@ -116,7 +128,9 @@ async def run_authenticated_session(
     ``login`` event because the refresh token exists before cache hydration.
     """
     login_task = asyncio.create_task(client.login(**login_kwargs))
-    if readiness == "login":
+    if readiness == "licenses":
+        readiness_task = asyncio.create_task(client._state.handled_licenses.wait())
+    elif readiness == "login":
         readiness_task = asyncio.create_task(client.wait_for("login"))
     elif readiness == "refresh_token":
         readiness_task = asyncio.create_task(_wait_for_refresh_token(client))

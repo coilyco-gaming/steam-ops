@@ -202,6 +202,7 @@ class _FakeSteamClient:
         self.wait_until_ready_calls = 0
         self.refresh_token: str | None = "rotated-token"
         self.closed = asyncio.Event()
+        self._state = SimpleNamespace(handled_licenses=asyncio.Event())
         self.licenses = [
             SimpleNamespace(id=123, created_at=None, payment_method=SimpleNamespace(value="store"))
         ]
@@ -214,6 +215,7 @@ class _FakeSteamClient:
 
     async def login(self, *args: object, **kwargs: object) -> None:
         self.login_calls.append((args, kwargs))
+        self._state.handled_licenses.set()
         await self.closed.wait()
 
     async def wait_until_ready(self) -> None:
@@ -250,6 +252,23 @@ def test_client_uses_refresh_token_rotates_and_never_returns_it(
     assert got["item"]["name"] == "Team Fortress 2"
     assert "old-token" not in repr(got)
     assert "rotated-token" not in repr(got)
+
+
+def test_client_waits_only_for_account_licenses(monkeypatch: pytest.MonkeyPatch) -> None:
+    from steam_mcp.client import ClientProtocolAdapter
+
+    fake_client = _FakeSteamClient()
+    adapter = ClientProtocolAdapter(
+        lambda name: "refresh-token" if name == "client_refresh_token" else None,
+        lambda token: None,
+    )
+    monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
+
+    got = asyncio.run(adapter.licenses())
+
+    assert got["count"] == 1
+    assert got["items"][0]["packageid"] == 123
+    assert fake_client.wait_until_ready_calls == 0
 
 
 def test_bootstrap_session_stops_at_login_without_waiting_for_cache() -> None:
