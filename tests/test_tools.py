@@ -198,6 +198,8 @@ def test_storefront_failure_and_input_validation(monkeypatch: pytest.MonkeyPatch
 class _FakeSteamClient:
     def __init__(self) -> None:
         self.login_calls: list[tuple[tuple[object, ...], dict[str, object]]] = []
+        self.wait_for_calls: list[str] = []
+        self.wait_until_ready_calls = 0
         self.refresh_token = "rotated-token"
         self.closed = asyncio.Event()
         self.licenses = [
@@ -215,7 +217,11 @@ class _FakeSteamClient:
         await self.closed.wait()
 
     async def wait_until_ready(self) -> None:
+        self.wait_until_ready_calls += 1
         return None
+
+    async def wait_for(self, event: str) -> None:
+        self.wait_for_calls.append(event)
 
     async def close(self) -> None:
         self.closed.set()
@@ -244,6 +250,29 @@ def test_client_uses_refresh_token_rotates_and_never_returns_it(
     assert got["item"]["name"] == "Team Fortress 2"
     assert "old-token" not in repr(got)
     assert "rotated-token" not in repr(got)
+
+
+def test_bootstrap_session_stops_at_login_without_waiting_for_cache() -> None:
+    from steam_mcp.client import run_authenticated_session
+
+    fake_client = _FakeSteamClient()
+
+    async def exercise() -> str:
+        async def capture_token(client: _FakeSteamClient) -> str:
+            return "captured-token"
+
+        return await run_authenticated_session(
+            fake_client,
+            capture_token,
+            ready_timeout=None,
+            readiness="login",
+            username="account",
+            password="credential",
+        )
+
+    assert asyncio.run(exercise()) == "captured-token"
+    assert fake_client.wait_for_calls == ["login"]
+    assert fake_client.wait_until_ready_calls == 0
 
 
 def test_client_requires_operator_bootstrap_without_refresh_token(
@@ -374,6 +403,18 @@ def test_bootstrap_import_failure_reports_only_module_name(
         bootstrap.main()
     assert "ImportError: safe_dependency" in str(exc_info.value)
     assert "credential-material" not in str(exc_info.value)
+
+
+def test_bootstrap_input_ignores_completion_after_auth_method_is_cancelled() -> None:
+    from steam_mcp.bootstrap import _set_result_if_pending
+
+    async def exercise() -> None:
+        future: asyncio.Future[str] = asyncio.get_running_loop().create_future()
+        future.cancel()
+        _set_result_if_pending(future, "unused-code")
+        assert future.cancelled()
+
+    asyncio.run(exercise())
 
 
 def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:

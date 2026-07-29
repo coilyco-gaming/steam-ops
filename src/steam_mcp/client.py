@@ -10,7 +10,7 @@ import asyncio
 import json
 import subprocess
 from collections.abc import Callable
-from typing import Any
+from typing import Any, Literal
 
 LOGIN_READY_TIMEOUT = 45
 
@@ -105,39 +105,44 @@ async def run_authenticated_session(
     operation: Callable[[Any], Any],
     *,
     ready_timeout: float | None,
+    readiness: Literal["login", "ready"] = "ready",
     **login_kwargs: Any,
 ) -> Any:
-    """Run one operation after steamio signals ready, then close its login loop.
+    """Run one operation after the requested steamio milestone, then close.
 
     ``steam.Client.login`` owns the connection loop and normally returns only
-    when the client closes. It must therefore run beside ``wait_until_ready``,
-    rather than being awaited before the operation.
+    when the client closes. It must therefore run beside the readiness wait,
+    rather than being awaited before the operation. Bootstrap needs only the
+    ``login`` event because the refresh token exists before cache hydration.
     """
     login_task = asyncio.create_task(client.login(**login_kwargs))
-    ready_task = asyncio.create_task(client.wait_until_ready())
+    if readiness == "login":
+        readiness_task = asyncio.create_task(client.wait_for("login"))
+    else:
+        readiness_task = asyncio.create_task(client.wait_until_ready())
     try:
         done, _ = await asyncio.wait(
-            {login_task, ready_task},
+            {login_task, readiness_task},
             timeout=ready_timeout,
             return_when=asyncio.FIRST_COMPLETED,
         )
         if login_task in done:
             await login_task
-            if ready_task not in done:
-                raise RuntimeError("Steam client login ended before becoming ready")
-        if ready_task in done:
-            await ready_task
+            if readiness_task not in done:
+                raise RuntimeError("Steam client login ended before the requested milestone")
+        if readiness_task in done:
+            await readiness_task
         else:
-            raise TimeoutError("Steam client login did not become ready")
+            raise TimeoutError("Steam client did not reach the requested login milestone")
         return await operation(client)
     finally:
-        ready_task.cancel()
+        readiness_task.cancel()
         try:
             await client.close()
         finally:
             if not login_task.done():
                 login_task.cancel()
-            await asyncio.gather(login_task, ready_task, return_exceptions=True)
+            await asyncio.gather(login_task, readiness_task, return_exceptions=True)
 
 
 def _safe_value(value: Any) -> Any:

@@ -5,6 +5,7 @@ from __future__ import annotations
 import asyncio
 import subprocess
 import tempfile
+import threading
 from pathlib import Path
 from typing import Any
 
@@ -14,6 +15,31 @@ ACCOUNT_NAME_PARAMETER = "/steam/username"
 ACCOUNT_PASSWORD_PARAMETER = "/steam/password"
 GUARD_SHARED_SECRET_PARAMETER = "/steam/client-guard-shared-secret"
 REFRESH_TOKEN_PARAMETER = "/steam/client-refresh-token"
+_INPUT_LOCK: asyncio.Lock | None = None
+
+
+def _set_result_if_pending(future: asyncio.Future[str], value: str) -> None:
+    """Complete a Steam input future only while its auth method is active."""
+    if not future.done():
+        future.set_result(value)
+
+
+async def _cancellation_safe_input(prompt: object = "") -> str:
+    """Read one guard code without steamio's cancelled-future callback race."""
+    global _INPUT_LOCK
+    if _INPUT_LOCK is None:
+        _INPUT_LOCK = asyncio.Lock()
+
+    async with _INPUT_LOCK:
+        loop = asyncio.get_running_loop()
+        future: asyncio.Future[str] = loop.create_future()
+
+        def read_input() -> None:
+            value = input(prompt)
+            loop.call_soon_threadsafe(_set_result_if_pending, future, value)
+
+        threading.Thread(target=read_input, daemon=True).start()
+        return await future
 
 
 def _read_parameter(name: str, *, required: bool = True) -> str | None:
@@ -89,6 +115,7 @@ def _write_refresh_token(refresh_token: str) -> None:
 async def _bootstrap() -> None:
     import steam
 
+    steam.utils.ainput = _cancellation_safe_input
     account_name = _read_parameter(ACCOUNT_NAME_PARAMETER)
     account_password = _read_parameter(ACCOUNT_PASSWORD_PARAMETER)
     shared_secret = _read_parameter(GUARD_SHARED_SECRET_PARAMETER, required=False)
@@ -104,6 +131,7 @@ async def _bootstrap() -> None:
             client,
             capture_refresh_token,
             ready_timeout=None,
+            readiness="login",
             username=account_name,
             password=account_password,
             shared_secret=shared_secret,
