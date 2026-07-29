@@ -12,60 +12,51 @@ import subprocess
 from collections.abc import Callable
 from typing import Any
 
+LOGIN_READY_TIMEOUT = 45
+
 
 class ClientProtocolAdapter:
     """Use a Steam account session only for PICS/account reads.
 
-    A refresh token is the normal credential.  Username/password (and an
-    optional Steam Guard shared secret) are read only when no refresh token is
-    configured, then the newly issued token is persisted to SSM.  Nothing from
-    either credential path is returned or included in exception text.
+    A refresh token is the only runtime credential. Account credentials and
+    Steam Guard input belong to the separate, operator-run bootstrap command.
+    Nothing from either credential path is returned or included in exception
+    text.
     """
 
     def __init__(
         self,
-        secret: Callable[[str], str],
         optional_secret: Callable[[str], str | None],
         persist_refresh_token: Callable[[str], None],
     ) -> None:
-        self._secret = secret
         self._optional_secret = optional_secret
         self._persist_refresh_token = persist_refresh_token
 
-    async def _login(self, client: Any) -> None:
+    async def _login(self, client: Any, operation: Callable[[Any], Any]) -> Any:
         refresh_token = self._optional_secret("client_refresh_token")
-        if refresh_token:
-            try:
-                await client.login(refresh_token=refresh_token)
-                original_token = refresh_token
-            except Exception:
-                # An expired/revoked refresh token is not steady state. Fall
-                # back to bootstrap without exposing the client-library error.
-                await self._bootstrap(client)
-                original_token = None
-        else:
-            await self._bootstrap(client)
-            original_token = None
-        rotated_token = getattr(client, "refresh_token", None)
-        if rotated_token and rotated_token != original_token:
-            self._persist_refresh_token(rotated_token)
-
-    async def _bootstrap(self, client: Any) -> None:
-        """Use account credentials only after the refresh-token path fails."""
-        await client.login(
-            self._secret("client_account_name"),
-            self._secret("client_account_password"),
-            shared_secret=self._optional_secret("client_guard_shared_secret"),
+        if not refresh_token:
+            raise ValueError(
+                "Steam client refresh token is not configured; run the documented "
+                "operator bootstrap."
+            )
+        result = await run_authenticated_session(
+            client,
+            operation,
+            ready_timeout=LOGIN_READY_TIMEOUT,
+            refresh_token=refresh_token,
         )
+        rotated_token = getattr(client, "refresh_token", None)
+        if rotated_token and rotated_token != refresh_token:
+            self._persist_refresh_token(rotated_token)
+        return result
 
     async def _with_client(self, operation: Callable[[Any], Any]) -> Any:
         try:
             import steam
 
             async with steam.Client() as client:
-                await self._login(client)
-                return await operation(client)
-        except (ImportError, OSError, RuntimeError, ValueError):
+                return await self._login(client, operation)
+        except (ImportError, OSError, RuntimeError, TimeoutError, ValueError):
             raise RuntimeError(
                 "Steam client authentication or PICS request failed; verify the persisted "
                 "refresh token or perform the documented manual bootstrap."
@@ -107,6 +98,46 @@ class ClientProtocolAdapter:
             }
 
         return asyncio.run(self._with_client(operation))
+
+
+async def run_authenticated_session(
+    client: Any,
+    operation: Callable[[Any], Any],
+    *,
+    ready_timeout: float | None,
+    **login_kwargs: Any,
+) -> Any:
+    """Run one operation after steamio signals ready, then close its login loop.
+
+    ``steam.Client.login`` owns the connection loop and normally returns only
+    when the client closes. It must therefore run beside ``wait_until_ready``,
+    rather than being awaited before the operation.
+    """
+    login_task = asyncio.create_task(client.login(**login_kwargs))
+    ready_task = asyncio.create_task(client.wait_until_ready())
+    try:
+        done, _ = await asyncio.wait(
+            {login_task, ready_task},
+            timeout=ready_timeout,
+            return_when=asyncio.FIRST_COMPLETED,
+        )
+        if login_task in done:
+            await login_task
+            if ready_task not in done:
+                raise RuntimeError("Steam client login ended before becoming ready")
+        if ready_task in done:
+            await ready_task
+        else:
+            raise TimeoutError("Steam client login did not become ready")
+        return await operation(client)
+    finally:
+        ready_task.cancel()
+        try:
+            await client.close()
+        finally:
+            if not login_task.done():
+                login_task.cancel()
+            await asyncio.gather(login_task, ready_task, return_exceptions=True)
 
 
 def _safe_value(value: Any) -> Any:

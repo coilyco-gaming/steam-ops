@@ -10,10 +10,12 @@ no write tool.
 
 from __future__ import annotations
 
+import asyncio
 import base64
 import importlib
 import subprocess
 import sys
+from pathlib import Path
 from types import ModuleType, SimpleNamespace
 
 import pytest
@@ -22,9 +24,6 @@ _SECRET_ENV = [
     "STEAM_WEB_API_KEY",
     "STEAM_STEAMID64",
     "STEAM_CLIENT_REFRESH_TOKEN",
-    "STEAM_CLIENT_ACCOUNT_NAME",
-    "STEAM_CLIENT_ACCOUNT_PASSWORD",
-    "STEAM_CLIENT_GUARD_SHARED_SECRET",
 ]
 
 
@@ -195,6 +194,7 @@ class _FakeSteamClient:
     def __init__(self) -> None:
         self.login_calls: list[tuple[tuple[object, ...], dict[str, object]]] = []
         self.refresh_token = "rotated-token"
+        self.closed = asyncio.Event()
         self.licenses = [
             SimpleNamespace(id=123, created_at=None, payment_method=SimpleNamespace(value="store"))
         ]
@@ -207,6 +207,13 @@ class _FakeSteamClient:
 
     async def login(self, *args: object, **kwargs: object) -> None:
         self.login_calls.append((args, kwargs))
+        await self.closed.wait()
+
+    async def wait_until_ready(self) -> None:
+        return None
+
+    async def close(self) -> None:
+        self.closed.set()
 
     async def fetch_product_info(self, **kwargs: object) -> list[dict[str, object]]:
         assert kwargs == {"apps": [440]}
@@ -221,7 +228,6 @@ def test_client_uses_refresh_token_rotates_and_never_returns_it(
     fake_client = _FakeSteamClient()
     persisted: list[str] = []
     adapter = ClientProtocolAdapter(
-        lambda name: pytest.fail(f"unexpected required secret {name}"),
         lambda name: "old-token" if name == "client_refresh_token" else None,
         persisted.append,
     )
@@ -235,22 +241,20 @@ def test_client_uses_refresh_token_rotates_and_never_returns_it(
     assert "rotated-token" not in repr(got)
 
 
-def test_client_bootstraps_only_without_refresh_token(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_client_requires_operator_bootstrap_without_refresh_token(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
     from steam_mcp.client import ClientProtocolAdapter
 
     fake_client = _FakeSteamClient()
-    credentials = {
-        "client_account_name": "account",
-        "client_account_password": "password",
-    }
-    adapter = ClientProtocolAdapter(credentials.__getitem__, lambda name: None, lambda token: None)
+    adapter = ClientProtocolAdapter(lambda name: None, lambda token: None)
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
-    got = adapter.licenses()
-    assert fake_client.login_calls == [(("account", "password"), {"shared_secret": None})]
-    assert got["items"] == [{"packageid": 123, "created_at": None, "payment_method": "store"}]
+    with pytest.raises(RuntimeError, match="manual bootstrap"):
+        adapter.licenses()
+    assert fake_client.login_calls == []
 
 
-def test_client_replaces_an_invalid_refresh_token_with_bootstrap(
+def test_client_rejects_an_invalid_refresh_token_without_leaking_it(
     monkeypatch: pytest.MonkeyPatch,
 ) -> None:
     from steam_mcp.client import ClientProtocolAdapter
@@ -262,23 +266,15 @@ def test_client_replaces_an_invalid_refresh_token_with_bootstrap(
                 raise RuntimeError("expired token")
 
     fake_client = ExpiringClient()
-    credentials = {
-        "client_account_name": "account",
-        "client_account_password": "password",
-    }
-    persisted: list[str] = []
     adapter = ClientProtocolAdapter(
-        credentials.__getitem__,
         lambda name: "expired-token" if name == "client_refresh_token" else None,
-        persisted.append,
+        lambda token: pytest.fail("an invalid token must not be persisted"),
     )
     monkeypatch.setitem(sys.modules, "steam", SimpleNamespace(Client=lambda: fake_client))
-    adapter.licenses()
-    assert fake_client.login_calls == [
-        ((), {"refresh_token": "expired-token"}),
-        (("account", "password"), {"shared_secret": None}),
-    ]
-    assert persisted == ["rotated-token"]
+    with pytest.raises(RuntimeError) as exc_info:
+        adapter.licenses()
+    assert fake_client.login_calls == [((), {"refresh_token": "expired-token"})]
+    assert "expired-token" not in str(exc_info.value)
 
 
 def test_client_failure_does_not_surface_credential_material(
@@ -291,7 +287,6 @@ def test_client_failure_does_not_surface_credential_material(
             raise RuntimeError("password=super-secret")
 
     adapter = ClientProtocolAdapter(
-        lambda name: "super-secret",
         lambda name: "super-secret",
         lambda x: None,
     )
@@ -315,6 +310,31 @@ def test_refresh_token_persistence_keeps_value_out_of_argv(monkeypatch: pytest.M
     persist_refresh_token("/steam/client-refresh-token", "rotated-token")
     assert "rotated-token" not in repr(captured["args"])
     assert "rotated-token" in str(captured["input"])
+
+
+def test_bootstrap_persistence_uses_aosguard_file_source_and_removes_file(
+    monkeypatch: pytest.MonkeyPatch,
+) -> None:
+    from steam_mcp.bootstrap import _write_refresh_token
+
+    captured: dict[str, object] = {}
+
+    def fake_run(args: list[str], **kwargs: object) -> subprocess.CompletedProcess[str]:
+        captured["args"] = args
+        value_arg = args[args.index("--value") + 1]
+        token_path = value_arg.removeprefix("file://")
+        captured["token_path"] = token_path
+        captured["value"] = Path(token_path).read_text(encoding="utf-8")
+        return subprocess.CompletedProcess(args, 0)
+
+    monkeypatch.setattr("steam_mcp.bootstrap.subprocess.run", fake_run)
+    _write_refresh_token("bootstrap-token")
+    args = captured["args"]
+    assert isinstance(args, list)
+    assert args[:5] == ["aosguard", "ops", "aws", "ssm", "put-parameter"]
+    assert "bootstrap-token" not in repr(args)
+    assert captured["value"] == "bootstrap-token"
+    assert not Path(str(captured["token_path"])).exists()
 
 
 def test_initialize_response_carries_steam_icon(monkeypatch: pytest.MonkeyPatch) -> None:

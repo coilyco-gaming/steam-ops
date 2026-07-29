@@ -67,14 +67,8 @@ SECRETS = {
     "api_key": ("STEAM_WEB_API_KEY", "/steam/web-api-key"),
     "steamid64": ("STEAM_STEAMID64", "/steam/steam-id-64"),
     # Client-protocol credentials are distinct from the Web API key.  The
-    # refresh token is steady state; account credentials are bootstrap only.
+    # refresh token is the workload's only Steam account credential.
     "client_refresh_token": ("STEAM_CLIENT_REFRESH_TOKEN", "/steam/client-refresh-token"),
-    "client_account_name": ("STEAM_CLIENT_ACCOUNT_NAME", "/steam/client-account-name"),
-    "client_account_password": ("STEAM_CLIENT_ACCOUNT_PASSWORD", "/steam/client-account-password"),
-    "client_guard_shared_secret": (
-        "STEAM_CLIENT_GUARD_SHARED_SECRET",
-        "/steam/client-guard-shared-secret",
-    ),
 }
 
 mcp = FastMCP(
@@ -260,7 +254,6 @@ def _client_adapter() -> ClientProtocolAdapter:
         _client_refresh_token_cache = token
 
     return ClientProtocolAdapter(
-        _secret,
         client_optional_secret,
         persist,
     )

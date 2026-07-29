@@ -28,11 +28,12 @@ last-play or the profile is private).
 
 - **Read-only by construction** - a Steam Web API key over `IPlayerService` reads a library; it cannot post, trade, refund, or act on the account (deploy#30). No write tool exists, and no tool both ingests untrusted content and can act.
 - **Credentials never in the image** - Web API credentials resolve env-first,
-  then from SSM. Client/PICS has its own env-first refresh token; account name,
-  password, and optional Steam Guard shared secret are bootstrap-only. A rotated
-  refresh token is written back to its SSM SecureString without entering command
-  arguments. Tokens, passwords, Guard material, and request URLs never enter
-  logs, exceptions, tool results, or tracked files.
+  then from SSM. Client/PICS has its own env-first refresh token. An interactive
+  operator bootstrap reads the existing account name and password from SSM and
+  accepts Steam Guard input outside the workload. A rotated refresh token is
+  written back to its SSM SecureString without entering command arguments.
+  Tokens, passwords, Guard material, and request URLs never enter logs,
+  exceptions, tool results, or tracked files.
 - **Network-gated reach** - the endpoint sits behind the deploy's auth/network overlay (Authelia/Traefik, added in the deploy repo), not in this source.
 
 ## Configuration (env)
@@ -41,16 +42,13 @@ last-play or the profile is private).
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString).
 - `STEAM_STEAMID64` / SSM `/steam/steam-id-64`.
 - `STEAM_CLIENT_REFRESH_TOKEN` / SSM `/steam/client-refresh-token`.
-- Bootstrap only: `STEAM_CLIENT_ACCOUNT_NAME` / `/steam/client-account-name`,
-  `STEAM_CLIENT_ACCOUNT_PASSWORD` / `/steam/client-account-password`, and
-  optional `STEAM_CLIENT_GUARD_SHARED_SECRET` /
-  `/steam/client-guard-shared-secret`.
 
 Env is checked first; SSM is the fallback. The refresh token is the normal
-client credential. The deployed ExternalSecret injects only that token; account
-credentials are used only by a controlled bootstrap process. If Steam Guard
-needs a manual code, Kai seeds the refresh-token SSM parameter in that one-time
-login rather than typing a code into a live MCP request.
+client credential. The deployed ExternalSecret injects only that token.
+`ward exec bootstrap-client` reads the existing `/steam/username` and
+`/steam/password` SecureStrings through AOSGuard and stores only the issued
+token. If Steam Guard needs a manual code, Kai enters it during that one-time
+operator login rather than during a live MCP request.
 
 ## Ops helpers (client-side)
 

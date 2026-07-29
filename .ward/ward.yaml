@@ -28,6 +28,9 @@ commands:
   run:
     run: uv run steam-mcp
     description: Run the MCP server locally over streamable-HTTP on :9112.
+  bootstrap-client:
+    run: uv run python -m steam_mcp.bootstrap
+    description: Interactively log in to Steam and store the issued client refresh token in SSM.
 
 catalog:
   kind: Component

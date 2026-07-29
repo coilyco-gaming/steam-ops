@@ -60,24 +60,35 @@ first and then SSM SecureString via `aws ssm get-parameter --with-decryption`.
 - `STEAM_WEB_API_KEY` / SSM `/steam/web-api-key` (SecureString)
 - `STEAM_STEAMID64` / SSM `/steam/steam-id-64`
 
-The client/PICS adapter resolves these independently, env first then SSM:
+The client/PICS adapter resolves its runtime credential independently, env
+first then SSM:
 
 - `STEAM_CLIENT_REFRESH_TOKEN` / `/steam/client-refresh-token` — steady-state
   session credential. When Steam rotates it, the adapter writes the replacement
   SecureString back to that same parameter without putting its value in process
   arguments, logs, exceptions, or MCP results.
-- `STEAM_CLIENT_ACCOUNT_NAME` / `/steam/client-account-name` and
-  `STEAM_CLIENT_ACCOUNT_PASSWORD` / `/steam/client-account-password` — used only
-  when the refresh-token parameter is absent or invalid, never on each request.
-- `STEAM_CLIENT_GUARD_SHARED_SECRET` / `/steam/client-guard-shared-secret` —
-  optional bootstrap-only Steam Guard secret. It is never returned.
 
-> **Steam Guard bootstrap:** a non-interactive server cannot safely prompt for a
-> code. Before the first rollout, Kai must seed `/steam/client-refresh-token`
-> through a controlled account login. The deployed workload receives only that
-> refresh token; bootstrap credentials and Guard material never enter its
-> ExternalSecret. Do not put a password, refresh token, shared secret, or
-> one-time code in an issue, shell history, committed file, test, or tool call.
+### Steam Guard bootstrap
+
+A non-interactive server cannot safely prompt for a code. Before the first
+client/PICS rollout, Kai runs this from an interactive operator host with an
+AWS admin session:
+
+```sh
+ward exec bootstrap-client
+```
+
+The command reads the existing `/steam/username` and `/steam/password`
+SecureStrings through AOSGuard. If
+`/steam/client-guard-shared-secret` is absent, `steamio` prompts Kai for a
+one-time Steam Guard code. The command writes only the issued refresh token to
+`/steam/client-refresh-token`, using a mode-0600 temporary value file that it
+removes immediately. The deployed workload receives only that refresh token.
+Account credentials and Guard material never enter its ExternalSecret.
+
+Do not put a password, refresh token, shared secret, or one-time code in an
+issue, shell history, committed file, or tool call. Re-run the command when
+Steam revokes the persisted session.
 
 Env-first lets the deploy inject via an ExternalSecret without granting the pod `ssm:GetParameter`; the SSM fallback mirrors reddit-mcp's resolver. The secrets never leave the box.
 
