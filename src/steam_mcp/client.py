@@ -105,7 +105,7 @@ async def run_authenticated_session(
     operation: Callable[[Any], Any],
     *,
     ready_timeout: float | None,
-    readiness: Literal["login", "ready"] = "ready",
+    readiness: Literal["login", "ready", "refresh_token"] = "ready",
     **login_kwargs: Any,
 ) -> Any:
     """Run one operation after the requested steamio milestone, then close.
@@ -118,6 +118,8 @@ async def run_authenticated_session(
     login_task = asyncio.create_task(client.login(**login_kwargs))
     if readiness == "login":
         readiness_task = asyncio.create_task(client.wait_for("login"))
+    elif readiness == "refresh_token":
+        readiness_task = asyncio.create_task(_wait_for_refresh_token(client))
     else:
         readiness_task = asyncio.create_task(client.wait_until_ready())
     try:
@@ -137,12 +139,28 @@ async def run_authenticated_session(
         return await operation(client)
     finally:
         readiness_task.cancel()
+        if readiness == "refresh_token" and not login_task.done():
+            login_task.cancel()
+            await asyncio.gather(login_task, return_exceptions=True)
         try:
-            await client.close()
+            close = client.close()
+            if readiness == "refresh_token":
+                try:
+                    await asyncio.wait_for(close, timeout=5)
+                except TimeoutError:
+                    pass
+            else:
+                await close
         finally:
             if not login_task.done():
                 login_task.cancel()
             await asyncio.gather(login_task, readiness_task, return_exceptions=True)
+
+
+async def _wait_for_refresh_token(client: Any) -> None:
+    """Return as soon as Steam assigns the persistent login credential."""
+    while not getattr(client, "refresh_token", None):
+        await asyncio.sleep(0.05)
 
 
 def _safe_value(value: Any) -> Any:

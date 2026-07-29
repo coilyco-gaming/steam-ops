@@ -126,16 +126,16 @@ async def _bootstrap() -> None:
             raise RuntimeError("Steam did not issue a refresh token")
         return refresh_token
 
-    async with steam.Client() as client:
-        refresh_token = await run_authenticated_session(
-            client,
-            capture_refresh_token,
-            ready_timeout=None,
-            readiness="login",
-            username=account_name,
-            password=account_password,
-            shared_secret=shared_secret,
-        )
+    client = steam.Client()
+    refresh_token = await run_authenticated_session(
+        client,
+        capture_refresh_token,
+        ready_timeout=None,
+        readiness="refresh_token",
+        username=account_name,
+        password=account_password,
+        shared_secret=shared_secret,
+    )
     _write_refresh_token(refresh_token)
 
 

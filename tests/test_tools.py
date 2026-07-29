@@ -200,7 +200,7 @@ class _FakeSteamClient:
         self.login_calls: list[tuple[tuple[object, ...], dict[str, object]]] = []
         self.wait_for_calls: list[str] = []
         self.wait_until_ready_calls = 0
-        self.refresh_token = "rotated-token"
+        self.refresh_token: str | None = "rotated-token"
         self.closed = asyncio.Event()
         self.licenses = [
             SimpleNamespace(id=123, created_at=None, payment_method=SimpleNamespace(value="store"))
@@ -272,6 +272,40 @@ def test_bootstrap_session_stops_at_login_without_waiting_for_cache() -> None:
 
     assert asyncio.run(exercise()) == "captured-token"
     assert fake_client.wait_for_calls == ["login"]
+    assert fake_client.wait_until_ready_calls == 0
+
+
+def test_bootstrap_session_captures_token_before_login_event() -> None:
+    from steam_mcp.client import run_authenticated_session
+
+    class TokenIssuingClient(_FakeSteamClient):
+        def __init__(self) -> None:
+            super().__init__()
+            self.refresh_token = None
+
+        async def login(self, *args: object, **kwargs: object) -> None:
+            self.login_calls.append((args, kwargs))
+            self.refresh_token = "issued-token"
+            await self.closed.wait()
+
+    fake_client = TokenIssuingClient()
+
+    async def exercise() -> str:
+        async def capture_token(client: TokenIssuingClient) -> str:
+            assert client.refresh_token is not None
+            return client.refresh_token
+
+        return await run_authenticated_session(
+            fake_client,
+            capture_token,
+            ready_timeout=None,
+            readiness="refresh_token",
+            username="account",
+            password="credential",
+        )
+
+    assert asyncio.run(exercise()) == "issued-token"
+    assert fake_client.wait_for_calls == []
     assert fake_client.wait_until_ready_calls == 0
 
 
