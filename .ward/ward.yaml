@@ -32,6 +32,9 @@ commands:
     run: uv run python -m steam_mcp.bootstrap
     description: Interactively log in to Steam and store the issued client refresh token in SSM.
 
+agent:
+  workflow: merge-remote-main
+
 catalog:
   kind: Component
   type: service
