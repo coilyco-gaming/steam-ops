@@ -36,11 +36,6 @@ agent:
   workflow: merge-remote-main
 
 catalog:
-  kind: Component
-  type: service
-  system: infrastructure
-  owner: kai
-  lifecycle: production
   description: "Read-only MCP exposing Kai's Steam library (owned games, recently played) over streamable-HTTP, backed by the Steam Web API. The second pure-read clone of the personal-MCP fleet and its second credential shape (a Web API key); key + steamid64 resolve from env/SSM at runtime and never enter the image. Repo is steam-ops, image/service is steam-mcp. Deploy surface lives in coilyco-bridge/deploy."
   dependsOn: []
   providesApis:
