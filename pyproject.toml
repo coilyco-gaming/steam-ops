@@ -82,3 +82,6 @@ excludes = [
 [tool.agentic-os.repo-pointer-skills]
 # This repo lives under the coilyco-gaming org dir.
 org = "coilyco-gaming"
+
+[tool.agentic-os.documentation-layout]
+band = "small"
