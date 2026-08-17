@@ -22,7 +22,7 @@ overlay rather than anything in this source.
 Env is checked first and SSM is the fallback. The refresh token is the normal
 client credential, and the deployed ExternalSecret injects only that token.
 
-`ward exec bootstrap-client` reads the existing `/steam/username` and
+`just bootstrap-client` reads the existing `/steam/username` and
 `/steam/password` SecureStrings through AOSGuard and stores only the issued
 token, writing a rotated token back to SSM without it entering command
 arguments. If Steam Guard needs a manual code, it is entered during that

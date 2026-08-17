@@ -75,7 +75,7 @@ client/PICS rollout, Kai runs this from an interactive operator host with an
 AWS admin session:
 
 ```sh
-ward exec bootstrap-client
+just bootstrap-client
 ```
 
 The command reads the existing `/steam/username` and `/steam/password`
@@ -101,8 +101,8 @@ Streamable-HTTP on `PORT` (default **9112**), `HOST` (default `0.0.0.0`), endpoi
 ## Run it locally
 
 ```sh
-ward sync
-STEAM_WEB_API_KEY='...' STEAM_STEAMID64='7656119...' ward run
+just sync
+STEAM_WEB_API_KEY='...' STEAM_STEAMID64='7656119...' just run
 ```
 
 ## Host-side ops
@@ -111,7 +111,7 @@ STEAM_WEB_API_KEY='...' STEAM_STEAMID64='7656119...' ward run
 
 ## Commands
 
-Dev commands are declared in [`.ward/ward.yaml`](.ward/ward.yaml). Run them as `ward <verb>`.
+Dev commands are declared in the [`justfile`](justfile). Run them as `just <verb>`.
 
 ## See also
 
